@@ -26,7 +26,7 @@ require_once '../include/header.php';
                     			<h3 class="panel-title">Login</h3>
                     		</div>
                     		
-                    		<form class="col s12" method="POST">
+                    		<form class="col s12" method="POST" class="login-form">
                         		<div class="panel-body">
                     				<div class="form-group input-group">
                     					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> <input id="login" name="login" type="text" placeholder="Informe o email ou nome de usu&aacute;rio" class="form-control" />
