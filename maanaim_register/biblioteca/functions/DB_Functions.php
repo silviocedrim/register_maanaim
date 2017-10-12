@@ -6,20 +6,12 @@ function login($table, $email_login, $senha)
     $database = open_database();
     $found = null;
     
-    $sql = "SELECT * FROM " . $table . " WHERE eMail = '" . $email_login . "' AND senha = '" . $senha . "'";
+    $sql = "SELECT * FROM " . $table . " WHERE (email = '" . $email_login . "' OR login = '" .$email_login . "' ) AND senha = '" . $senha . "'";
     
     $result = $database->query($sql);
     
     if ($result->num_rows > 0) {
         $found = $result->fetch_assoc();
-    } else {
-        $sql = "SELECT * FROM " . $table . " WHERE login = " . $email_login;
-        ;
-        $result = $database->query($sql);
-        
-        if ($result->num_rows > 0) {
-            $found = $result->fetch_assoc();
-        }
     }
     
     close_database($database);
@@ -46,13 +38,13 @@ function buscarTodosOsRegistros($table = null)
     return $found;
 }
 
-function buscarRegistroPorId($table = null, $id = null, $nomeId = null)
+function buscarRegistroPorId($table = null, $id = null)
 {
     $found = null;
     try {
         $database = open_database();
         
-        $sql = "SELECT * FROM " . $table . " WHERE " . $nomeId . " = " . $id;
+        $sql = "SELECT * FROM " . $table . " WHERE id = " . $id;
         $result = $database->query($sql);
         if ($result->num_rows > 0) {
             $found = $result->fetch_all(MYSQLI_ASSOC);
@@ -65,7 +57,7 @@ function buscarRegistroPorId($table = null, $id = null, $nomeId = null)
     return $found;
 }
 
-function update($table = null, $id = 0, $data = null, $nomeId)
+function update($table = null, $id = 0, $data = null)
 {
     $items = null;
     $database = open_database();
@@ -78,7 +70,7 @@ function update($table = null, $id = 0, $data = null, $nomeId)
     $items = rtrim($items, ',');
     $sql = "UPDATE " . $table;
     $sql .= " SET $items";
-    $sql .= " WHERE " . $nomeId . " = " . $id . ";";
+    $sql .= " WHERE id = " . $id . ";";
     
     try {
         

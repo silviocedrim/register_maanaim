@@ -1,5 +1,30 @@
 <?php
-require_once '../include/header.php';
+
+session_start();
+require_once ('../include/header.php');
+require_once ('../../biblioteca/functions/DB_Functions.php');
+
+if (isset($_POST['login']) && empty($_POST['login']) == false) {
+    
+    $login = addslashes($_POST['login']);
+    $senha = addslashes($_POST['senha']);
+    
+    $result = login(USUARIO, $login, $senha);
+    
+    if ($result) {
+        $_POST['administrador'] = $result['administrador'];
+        $_POST['id'] = $result['id'];
+        header("Location: ../usuarios_sistema/lista.php");
+    }else{
+        echo '<div class="alert alert-danger alert-dismissible" role="alert">';
+        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+        echo '<strong>Aviso!</strong> Login ou Senha inválidos.';
+        echo '</div>';
+        
+    }
+    
+}
+
 ?>
 
 
@@ -29,14 +54,18 @@ require_once '../include/header.php';
                     		<form class="col s12" method="POST" class="login-form">
                         		<div class="panel-body">
                     				<div class="form-group input-group">
-                    					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span> <input id="login" name="login" type="text" placeholder="Informe o email ou nome de usu&aacute;rio" class="form-control" />
+                    					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    					 <input id="login" name="login" type="text" placeholder="Informe o email ou nome de usu&aacute;rio" class="form-control" required/>
                     				</div>
                     
                     				<div class="form-group input-group">
-                    					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> <input id="senha" name="senha" type="password" placeholder="Informe a senha" class="form-control" />
+                    					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span> 
+                    					<input id="senha" name="senha" type="password" placeholder="Informe a senha" class="form-control" />
                     				</div>
-                    				<input tabindex="2" type="submit" value="Entrar" class="btn btn-lg btn-primary btn-block" style="text-transform: uppercase;" />
-                        		</div>
+                    				
+                    				<input tabindex="2" type="submit" value="Entrar" class="btn btn-lg btn-primary btn-block" style="text-transform: uppercase;" required/>
+                        		</div
+                        		>
                     		</form>
                     		
                     	</div>

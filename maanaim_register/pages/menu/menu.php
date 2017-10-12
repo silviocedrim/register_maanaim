@@ -16,13 +16,13 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 				
-					<li><a href="../pages/campistas/lista.php">Campista</a></li>
+					<li><a href="../pages/campistas/lista.php">Campistas</a></li>
 					<?php if(!empty($_SESSION['administrador']) && $_SESSION['administrador'] == 1){ ?>
 						<li><a href="../pages/usuarios_sistema/lista.php">Usuários</a></li>
 					<?php }?>
 					
 					
-					   <li><a href="../../login.php">Sair</a></li>
+					   <li><a href="../login/login.php">Sair</a></li>
 				</ul>
 				
 			</div>
