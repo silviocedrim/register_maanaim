@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+    
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
        
@@ -27,6 +28,7 @@
         <link type="text/css" rel="stylesheet" href="../../biblioteca/css/bootstrap.css?ln=css" />
         <link type="text/css" rel="stylesheet" href="../../biblioteca/css/sb-admin.css?ln=css" />
         
+        <title>Maanaim Register</title>
         
     </head>
 </html>
