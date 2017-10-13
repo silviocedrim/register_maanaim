@@ -34,4 +34,25 @@ function botaoNovo($ref, $icon, $tipo, $titulo)
     }
 }
 
+function formatarGrauDePertencia($grau_pertenca)
+{
+    $grau = null;
+    switch ($grau_pertenca)
+    {
+        case 'Irmão':
+            $grau = 'Irm&atilde;o';
+            break;
+        case 'Vocacionado':
+            $grau = 'Vocacionado';
+            break;
+        case 'Missionário':
+            $grau = 'Mission&aacute;rio';
+            break;
+        case 'Consagrado':
+            $grau = 'Consagrado';
+            break;
+    }
+    return $grau;
+}
+
 ?>

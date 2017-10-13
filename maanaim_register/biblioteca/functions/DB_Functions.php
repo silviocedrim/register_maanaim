@@ -71,7 +71,6 @@ function update($table = null, $id = 0, $data = null)
     $sql = "UPDATE " . $table;
     $sql .= " SET $items";
     $sql .= " WHERE id = " . $id . ";";
-    
     try {
         
         $database->query($sql);
@@ -92,6 +91,8 @@ function insert($table = null, $data = null)
     
     $database = open_database();
     
+    print_r($data);
+    
     foreach ($data as $key => $value) {
         $columns .= trim($key, "'") . ",";
         $values .= "'$value',";
@@ -103,7 +104,7 @@ function insert($table = null, $data = null)
     
     $sql = "INSERT INTO " . $table . "($columns)" . " VALUES " . "($values);";
     try {
-        
+        print_r($sql);
         $database->query($sql);
         
         $_SESSION['message'] = 'Registro cadastrado com sucesso.';

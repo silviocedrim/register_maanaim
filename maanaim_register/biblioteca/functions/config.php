@@ -8,5 +8,6 @@ define("DB_PASSWORD", "");
 define("DB_DATABASE", "comumana_register");
 
 define("USUARIO", "usuario");
+define("MEMBRO", "membro");
 
 ?>
