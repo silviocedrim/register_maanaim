@@ -59,7 +59,7 @@ $mensagens = new Mensagens();
                    							<a href="#" class="btn btn-sm btn-danger" data-toggle="excluir" data-target="#delete-modal" data-customer="<?php echo $dado['id']; ?>">
                                             	<i class="fa fa-trash"></i> Excluir
                                             </a>
-                                           <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Launch demo modal</button>
+                                           <a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $membro['id']?>" class="btn btn-danger tooltipBtn">&#10006; Excluir</a>
                    						</td>
                 					</tr>
                 				</tbody>
