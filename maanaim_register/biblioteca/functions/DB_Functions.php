@@ -1,13 +1,12 @@
 <?php
 require 'DB_Connect.php';
 
-function login($table, $email_login, $senha)
+function login($table, $login, $senha)
 {
     $database = open_database();
     $found = null;
     
-    $sql = "SELECT * FROM " . $table . " WHERE (email = '" . $email_login . "' OR login = '" .$email_login . "' ) AND senha = '" . $senha . "'";
-    
+    $sql = "SELECT * FROM " . $table . " WHERE login = '" .$login . "' AND senha = '" . $senha . "'";
     $result = $database->query($sql);
     
     if ($result->num_rows > 0) {
@@ -57,6 +56,45 @@ function buscarRegistroPorId($table = null, $id = null)
     return $found;
 }
 
+function buscarMembroPorEmail($email)
+{
+    $found = null;
+    try {
+        $database = open_database();
+        
+        $sql = "SELECT * FROM " . MEMBRO . " WHERE email = " . $id;
+        $result = $database->query($sql);
+        if ($result->num_rows > 0) {
+            $found = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    } catch (Exception $e) {
+        $_SESSION['message'] = $e->GetMessage();
+        $_SESSION['type'] = 'danger';
+    }
+    close_database($database);
+    return $found;
+}
+
+function buscarUsuarioPorLogin($login)
+{
+    $found = null;
+    try {
+        $database = open_database();
+        
+        $sql = "SELECT * FROM " . USUARIO . " WHERE login = " . $id;
+        $result = $database->query($sql);
+        if ($result->num_rows > 0) {
+            $found = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    } catch (Exception $e) {
+        $_SESSION['message'] = $e->GetMessage();
+        $_SESSION['type'] = 'danger';
+    }
+    close_database($database);
+    return $found;
+}
+
+
 function update($table = null, $id = 0, $data = null)
 {
     $items = null;
@@ -91,8 +129,6 @@ function insert($table = null, $data = null)
     
     $database = open_database();
     
-    print_r($data);
-    
     foreach ($data as $key => $value) {
         $columns .= trim($key, "'") . ",";
         $values .= "'$value',";
@@ -121,7 +157,7 @@ function insert($table = null, $data = null)
 /**
  *  Remove uma linha de uma tabela pelo ID do registro
  */
-function remove( $table = null, $id = null ) 
+function delete( $table = null, $id = null ) 
 {
     
     $database = open_database();
@@ -146,3 +182,26 @@ function remove( $table = null, $id = null )
     close_database($database);
 }
     
+function buscarUsuarios($id = null)
+{
+    $found = null;
+    $sql = null;
+    try {
+        $database = open_database();
+        if($id){
+            $sql = "select u.id, u.login, u.administrador, u.senha, m.nome, m.email from usuario u join membro m on u.id_membro = m.id WHERE u.id = " . $id;
+        }else{
+            $sql = "select u.id, u.login, u.administrador, u.senha, m.nome, m.email from usuario u join membro m on u.id_membro = m.id";
+        }
+        $result = $database->query($sql);
+        if ($result->num_rows > 0) {
+            $found = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    } catch (Exception $e) {
+        $_SESSION['message'] = $e->GetMessage();
+        $_SESSION['type'] = 'danger';
+    }
+    close_database($database);
+    return $found;
+}
+

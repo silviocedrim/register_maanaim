@@ -12,13 +12,13 @@ if (isset($_POST['login']) && empty($_POST['login']) == false) {
     $result = login(USUARIO, $login, $senha);
     
     if ($result) {
-        $_POST['administrador'] = $result['administrador'];
-        $_POST['id'] = $result['id'];
+        $_SESSION['administrador'] = $result['administrador'];
+        $_SESSION['id'] = $result['id'];
         header("Location: ../usuarios_sistema/lista.php");
     }else{
         echo '<div class="alert alert-danger alert-dismissible" role="alert">';
         echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-        echo '<strong>Aviso!</strong> Login ou Senha inválidos.';
+        echo '<strong>Aviso!</strong> Login ou Senha inv&aacute;lidos.';
         echo '</div>';
         
     }
@@ -55,7 +55,7 @@ if (isset($_POST['login']) && empty($_POST['login']) == false) {
                         		<div class="panel-body">
                     				<div class="form-group input-group">
                     					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    					 <input id="login" name="login" type="text" placeholder="Informe o email ou nome de usu&aacute;rio" class="form-control" required/>
+                    					 <input id="login" name="login" type="text" placeholder="Informe o nome de usu&aacute;rio" class="form-control" required/>
                     				</div>
                     
                     				<div class="form-group input-group">

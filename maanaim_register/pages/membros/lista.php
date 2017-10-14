@@ -3,7 +3,6 @@ require_once ('../../biblioteca/functions/Functions.php');
 require_once ('../../biblioteca/functions/DB_Functions.php');
 require_once ('../../biblioteca/util/Mensagens.php');
 require_once ('../include/header.php');
-require_once ('../modal/modal.php');
 require_once ('../menu/menu.php');
 
 $dados = buscarTodosOsRegistros(MEMBRO);
@@ -12,8 +11,6 @@ $mensagens = new Mensagens();
 
 <!DOCTYPE html>
 <html lang="pt-br">
- 
-
     <body>
     	<div class="container">
        		<header>
@@ -46,20 +43,17 @@ $mensagens = new Mensagens();
                 					</tr>
                 				</thead>
                 				
-                				<?php foreach ($dados as $dado){ 
+                				<?php foreach ($dados as $membro){ 
                 				?>
                 				
                 				<tbody>
                 					<tr>
-                						<td><?php echo $dado['nome']; ?></td>
-                						<td><?php echo $dado['email']; ?></td>
-                						<td><?php echo formatarGrauDePertencia($dado['grau_pertenca']); ?></td>
+                						<td><?php echo $membro['nome']; ?></td>
+                						<td><?php echo $membro['email']; ?></td>
+                						<td><?php echo formatarGrauDePertencia($membro['grau_pertenca']); ?></td>
                 						<td align="center">
-                							<a title="Alterar" class="btn btn-warning" href="editar.php?id=<?php echo $dado['id']?>">&#9999; Alterar</a>
-                   							<a href="#" class="btn btn-sm btn-danger" data-toggle="excluir" data-target="#delete-modal" data-customer="<?php echo $dado['id']; ?>">
-                                            	<i class="fa fa-trash"></i> Excluir
-                                            </a>
-                                           <a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $membro['id']?>" class="btn btn-danger tooltipBtn">&#10006; Excluir</a>
+                							<a title="Alterar" class="btn btn-warning" href="editar.php?id=<?php echo $membro['id']?>">&#9999; Alterar</a>
+                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $membro['id']?>" class="btn btn-danger tooltipBtn">&#10006; Excluir</a>
                    						</td>
                 					</tr>
                 				</tbody>
@@ -73,8 +67,6 @@ $mensagens = new Mensagens();
     		</div>
     	
     	</div>
-    	
-    	
     </body>
 </html>
 

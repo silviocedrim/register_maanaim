@@ -18,9 +18,7 @@
     				<ul class="nav navbar-nav">
     				
     					<li><a href="../membros/lista.php">Membros</a></li>
-    					<?php if(!empty($_SESSION['administrador']) && $_SESSION['administrador'] == 1){ ?>
-    						<li><a href="../usuarios_sistema/lista.php">Usuários</a></li>
-    					<?php }?>
+    					<li><a href="../usuarios_sistema/lista.php">Usu&aacute;rios</a></li>
     					<li><a href="../campistas/lista.php">Campistas</a></li>
     					
     					
