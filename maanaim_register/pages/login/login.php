@@ -14,6 +14,13 @@ if (isset($_POST['login']) && empty($_POST['login']) == false) {
     if ($result) {
         $_SESSION['administrador'] = $result['administrador'];
         $_SESSION['id'] = $result['id'];
+        
+        $id_membro = $result['id_membro'];
+        $usuario = buscarUsuarios($id_membro);
+        
+        
+        $_SESSION['nome'] = $usuario[0]['nome'];
+        
         header("Location: ../usuarios_sistema/lista.php");
     }else{
         echo '<div class="alert alert-danger alert-dismissible" role="alert">';
