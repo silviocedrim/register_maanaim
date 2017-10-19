@@ -1,4 +1,13 @@
+<?php 
 
+require_once ('../../resources/functions/DB_Functions.php');
+require_once ('../../resources/functions/Functions.php');
+require_once ('../../resources/util/Mensagens.php');
+require_once ('../../resources/util/select_functions.php');
+require_once ('../../resources/functions/buscar_cep.php');
+
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,20 +22,18 @@
         <!-- CSS -->
         <link href="theme.css" rel="stylesheet">
     	<link href="jumbotron.css" rel="stylesheet">
-        <link href="../../biblioteca/bootstrap-3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../biblioteca/bootstrap-3.3.7/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-		<link href="../../biblioteca/css/estilo.css" rel="stylesheet" />        
-        <link href="biblioteca/materialize/css/materialize.min.css" rel="stylesheet" type="text/css" >
+        <link href="../../bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../bootstrap-3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="../../bootstrap-3.3.7/css/estilo.css" rel="stylesheet" />        
+        
+        <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/ui.css?ln=css" />
+        <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/messages.css?ln=css" />
+        <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/bootstrap.css?ln=css" />
+        <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/sb-admin.css?ln=css" />
+       
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        
-        <script src="../../biblioteca/jquery/jquery-1.5.2.min.js"></script>
-    	<script src="../../biblioteca/jquery/jquery.maskedinput-1.3.min.js"></script>
-        <script src="../../biblioteca/bootstrap-3.3.7/docs/assets/js/ie-emulation-modes-warning.js"></script>
-        
-        <link type="text/css" rel="stylesheet" href="../../biblioteca/css/ui.css?ln=css" />
-        <link type="text/css" rel="stylesheet" href="../../biblioteca/css/messages.css?ln=css" />
-        <link type="text/css" rel="stylesheet" href="../../biblioteca/css/bootstrap.css?ln=css" />
-        <link type="text/css" rel="stylesheet" href="../../biblioteca/css/sb-admin.css?ln=css" />
+        <script src="../../resources/jquery/jquery-1.5.2.min.js"></script>
+    	<script src="../../resouces/jquery/jquery.maskedinput-1.3.min.js"></script>
         
         <title>Maanaim Register</title>
         

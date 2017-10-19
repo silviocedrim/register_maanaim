@@ -2,7 +2,6 @@
 
 session_start();
 require_once ('../include/header.php');
-require_once ('../../biblioteca/functions/DB_Functions.php');
 
 if (isset($_POST['login']) && empty($_POST['login']) == false) {
     
@@ -49,7 +48,7 @@ if (isset($_POST['login']) && empty($_POST['login']) == false) {
         	<div class="container">
     			<div class="row">
 				<div class="col-md-3 col-md-offset-2 text-center">
-					<img src="../../biblioteca/img/marca_maanaim.png?ln=images" width="170" style="margin-top: 30%;" />
+					<img src="../../resources/img/marca_maanaim.png?ln=images" width="170" style="margin-top: 30%;" />
 				</div>    			
     			
                 	<div class="col-md-4" style="margin-top: 6%;">
