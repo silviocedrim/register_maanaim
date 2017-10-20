@@ -23,7 +23,7 @@ $mensagens = new Mensagens();
             			<h2>Usu&aacute;rios</h2>
             		</div>
     				<div class="col-sm-6 text-right h2" align="right">
-    					<a href="adicionar.php" class="btn btn-primary">&#10010 Novo Usu&aacute;rio</a>
+    					<a href="adicionar.php" class="btn btn-sm btn-primary">&#10010 Novo Usu&aacute;rio</a>
     				</div>
         		</div>
         		
@@ -37,7 +37,7 @@ $mensagens = new Mensagens();
             			<div class="panel-body">
 
                 			<!-- TABLE -->
-                			<table class="table table-bordered">
+                			<table class="table table-bordered table-striped">
                 				<thead  class="blue-grey lighten-4">
                 					<tr>
                 						<th>Nome</th>
@@ -58,8 +58,8 @@ $mensagens = new Mensagens();
                 						<td><?php echo $usuario['login']; ?></td>
                 						<td><?php echo $usuario['administrador']; ?></td>
                 						<td align="center">
-                							<a title="Alterar" class="btn btn-warning" href="editar.php?id=<?php echo $usuario['id']?>">&#9999; Alterar</a>
-                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $usuario['id']?>" class="btn btn-danger tooltipBtn">&#10006; Excluir</a>
+                							<a title="Alterar" class="btn btn-sm btn-sm btn-warning" href="editar.php?id=<?php echo $usuario['id']?>">&#9999; Alterar</a>
+                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $usuario['id']?>" class="btn btn-sm btn-sm btn-danger tooltipBtn">&#10006; Excluir</a>
                    						</td>
                 					</tr>
                 				</tbody>

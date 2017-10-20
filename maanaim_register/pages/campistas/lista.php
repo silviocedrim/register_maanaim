@@ -16,7 +16,7 @@ $mensagens = new Mensagens();
             			<h2>Membros</h2>
             		</div>
     				<div class="col-sm-6 text-right h2" align="right">
-    					<a href="adicionar.php" class="btn btn-primary">&#10010 Nova Inscri&ccedil;&atilde;o</a>
+    					<a href="adicionar.php" class="btn btn-sm btn-primary">&#10010 Nova Inscri&ccedil;&atilde;o</a>
     				</div>
         		</div>
         		

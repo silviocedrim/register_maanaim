@@ -34,6 +34,7 @@ require_once ('../../resources/functions/buscar_cep.php');
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="../../resources/jquery/jquery-1.5.2.min.js"></script>
     	<script src="../../resouces/jquery/jquery.maskedinput-1.3.min.js"></script>
+					
         
         <title>Maanaim Register</title>
         

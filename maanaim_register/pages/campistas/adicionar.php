@@ -40,32 +40,33 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
             			<h2>Inscri&ccedil;&atilde;o</h2>
             		</div>
         		</div>
-        		
+	
         		<!-- MASCARA -->
                  <script>
-
-                  jQuery(function($){
-                         $("#cpf").mask("999.999.999-99");
-                         $("#altura").mask("9,99");
-                         $("#cep").mask("99999-999");
-                         $("#telefone").mask("(99) 99999-9999");
-                         $('#telefone_responsavel').mask("(99) 99999-9999");
-                  });
+                  
+    				jQuery(function($){
+                        $("#cpf").mask("999.999.999-99");
+                        $("#altura").mask("9,99");
+                        $("#cep").mask("99999-999");
+                        $("#telefone").mask("(99) 99999-9999");
+                        $('#telefone_responsavel').mask("(99) 99999-9999");
+                	 });
 
                  </script>
                  
 				<script type="text/javascript">
-					
+
              		function validarCPF(formName){ // declaro o início do jquery
                     	var cpf = $("input[name='cpf']").val();
                     	cpf = cpf.replace('.', '').replace('.', '').replace('-', '');
 
-                    	var hidden = document.getElementById('action');
-                    	var form = document.getElementById(formName);
-
-                    	hidden.value = 'validarCPF';
                     	
-                    	form.submit();
+//                     	var hidden = document.getElementById('action');
+//                     	var form = document.getElementById(formName);
+
+//                     	hidden.value = 'validarCPF';
+                    	
+//                     	form.submit();
                     }// fim do jquery
 
                     function buscarEndereco(formName)
@@ -73,12 +74,22 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
                     	var cep = $("input[name='cep']").val();
                     	cep = cep.replace('-', '');
 
-                    	var hidden = document.getElementById('action');
-                    	var form = document.getElementById(formName);
-
-                    	hidden.value = 'busca_cep';
-                    	form.submit();
+                    	$("#mensagem").html(' (Consultando CEP ...)');
+        				$.getScript("http://cep.republicavirtual.com.br/web_cep.php?formato=javascript&cep="+cep, function(){
+        			  		if(resultadoCEP["resultado"]){
+        						$("#rua").val(unescape(resultadoCEP["logradouro"]));
+        						$("#bairro").val(unescape(resultadoCEP["bairro"]));
+        						$("#cidade").val(unescape(resultadoCEP["cidade"]));
+            					$("#uf").val(unescape(resultadoCEP["uf"]));
+        					}
+         
+        					$("#mensagem").html('');
+        					$("#numero").focus();
+        					
+        				});	
                     }
+
+                	
                     
 
                    
@@ -102,9 +113,12 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
                         	</div>
                         	<div class="row">
          						<div class="form-group col-md-2">
-                                  <label for="cpf">CPF</label>
-                                  <input type="text" class="form-control" id="cpf" name="cpf" onblur="javascript:validarCPF('formInscricao')" required>
+                                 	<label for="cpf">CPF</label>
+                                  	<input type="text" class="form-control" id="cpf" name="cpf" required>
                             	</div>
+                            	<div class="form-group col-md-2">
+                            		<input type="submit" value="&#10003 Consultar" class="btn btn-sm btn-primary" onclick="javascript:validarCPF('formInscricao')" style="margin-top: 25px"/> 
+                        		</div>
                         	</div>
                         	
                         	<div class="row">
@@ -182,8 +196,8 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
                         	</div>
                         	
                         	<div class="row">
-                        		<div class="form-group col-md-2">
-                                    <label for="cep">CEP</label>
+                        		<div class="form-group col-md-3">
+                                    <label for="cep">CEP<span id='mensagem'></span></label>
                 					<input id="cep" name="cep" type="text" class="form-control" onblur="javascript:buscarEndereco('formInscricao')"/>
                                 </div>
                         	</div>
@@ -191,7 +205,7 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
                         	<div class="row">
                         		<div class="form-group col-md-3">
                                     <label for="rua">Logradouro</label>
-                					<input id="rua" name="rua" type="text" class="form-control" value="<?php if($retorno_cep != null) { echo  $retorno_cep['logradouro']; }?>"/>
+                					<input id="rua" name="rua" type="text" class="form-control"/>
                                 </div>
                                 <div class="form-group col-md-1">
                                     <label for="numero">N&uacute;mero</label>
@@ -199,7 +213,7 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="bairro">Bairro</label>
-                					<input id="bairro" name="bairro" type="text" class="form-control" value="<?php if($retorno_cep != null) { echo  $retorno_cep['bairro']; }?>"/>
+                					<input id="bairro" name="bairro" type="text" class="form-control"/>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="complemento">Complemento</label>
@@ -209,11 +223,11 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
                             <div class="row">
                                 <div class="form-group col-md-3">
                                     <label for="cidade">Cidade</label>
-                					<input id="cidade" name="cidade" type="text" class="form-control" value="<?php if($retorno_cep != null) { echo  $retorno_cep['cidade']; }?>"/>
+                					<input id="cidade" name="cidade" type="text" class="form-control" />
                                 </div>
                                 <div class="form-group col-md-2">
                                   	<label for="uf">UF</label>
-                                	<?php if($retorno_cep != null) { selected_UF($retorno_cep['uf']);  }else { selected_UF(); } ?> 
+                                	<?php selected_UF(); ?> 
                               	</div>
                           	</div>
                           	<div class="row">
