@@ -20,21 +20,29 @@ require_once ('../../resources/functions/buscar_cep.php');
         <meta name="author" content="">
         
         <!-- CSS -->
-        <link href="theme.css" rel="stylesheet">
-    	<link href="jumbotron.css" rel="stylesheet">
-        <link href="../../bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../../bootstrap-3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
-		<link href="../../bootstrap-3.3.7/css/estilo.css" rel="stylesheet" />        
+        <link href="../../bootstrap-3.3.7/css/bootstrap.css" rel="stylesheet">
+        <link href="../../bootstrap-3.3.7/css/bootstrap-theme.css" rel="stylesheet">
+		<link href="../../bootstrap-3.3.7/css/estilo.css" rel="stylesheet" />
+		<link href="../../bootstrap-3.3.7/css/bootstrap-datetimepicker.css" rel="stylesheet">
+                
         
         <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/ui.css?ln=css" />
         <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/messages.css?ln=css" />
         <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/bootstrap.css?ln=css" />
         <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/sb-admin.css?ln=css" />
        
+       
+       	<!-- JS -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <script src="../../resources/jquery/jquery-1.5.2.min.js"></script>
-    	<script src="../../resouces/jquery/jquery.maskedinput-1.3.min.js"></script>
-					
+        <script src="../../resources/jquery/jquery-2.2.4.min.js" charset="UTF-8"></script>
+    	<script src="../../resources/jquery/jquery.maskedinput.1.4.1.min.js"></script>
+    	<script src="../../resources/jquery/jquery-modal-loading.js"></script>
+    	<script src="../../resources/jquery/jquery.correios.js"></script>
+    	<script src="../../resources/jquery/jquery.correios.js"></script>
+    	
+    	<script src="../../bootstrap-3.3.7/js/bootstrap.js"></script>
+    	<script src="../../bootstrap-3.3.7/js/bootstrap-datetimepicker.js"></script>
+        <script src="../../bootstrap-3.3.7/js/locales/bootstrap-datetimepicker.pt-BR.js"></script>
         
         <title>Maanaim Register</title>
         
