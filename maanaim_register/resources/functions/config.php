@@ -10,4 +10,7 @@ define("DB_DATABASE", "comumana_register");
 define("USUARIO", "usuario");
 define("MEMBRO", "membro");
 
+define("CAMPISTA", "campista");
+define("PAGAMENTOS", "pagamento_inscricao");
+
 ?>

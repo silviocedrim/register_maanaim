@@ -6,7 +6,7 @@ function login($table, $login, $senha)
     $database = open_database();
     $found = null;
     
-    $sql = "SELECT * FROM " . $table . " WHERE login = '" .$login . "' AND senha = '" . $senha . "'";
+    $sql = "SELECT * FROM " . $table . " WHERE login = '" . $login . "' AND senha = '" . $senha . "'";
     $result = $database->query($sql);
     
     if ($result->num_rows > 0) {
@@ -94,7 +94,6 @@ function buscarUsuarioPorLogin($login)
     return $found;
 }
 
-
 function update($table = null, $id = 0, $data = null)
 {
     $items = null;
@@ -140,7 +139,6 @@ function insert($table = null, $data = null)
     
     $sql = "INSERT INTO " . $table . "($columns)" . " VALUES " . "($values);";
     try {
-        print_r($sql);
         $database->query($sql);
         
         $_SESSION['message'] = 'Registro cadastrado com sucesso.';
@@ -153,13 +151,57 @@ function insert($table = null, $data = null)
     close_database($database);
 }
 
+function insertFormasDePagamento($input_data, $codCampista)
+{
+    $columns = null;
+    $values = null;
+    
+    $database = open_database();
+    
+    foreach ($input_data as $key => $forma_pagamento) {
+        foreach ($forma_pagamento as $key => $value) {
+            $columns .= trim($key, "'") . ",";
+            $values .= "'$value',";
+        }
+        
+        $columns .= trim('id_campista', "'") . ",";
+        $values .= "'$codCampista',";
+        
+        // remove a ultima virgula
+        $columns = rtrim($columns, ',');
+        $values = rtrim($values, ',');
+        
+        $sql = "INSERT INTO " . PAGAMENTOS . "(" . $columns . ") VALUES (" . $values . ");";
+        $database->query($sql);
+        
+        $columns = null;
+        $values = null;
+        $sql = null;
+    }
+    
+    close_database($database);
+}
+
+function consultaIdUltimoCampista()
+{
+    $id_campista = null;
+    $sql = "SELECT MAX(id) as ID FROM " . CAMPISTA;
+    $database = open_database();
+    
+    $result = $database->query($sql);
+    
+    if ($result->num_rows > 0) {
+        $id_campista = $result->fetch_assoc()['ID'];
+    }
+    
+    return $id_campista;
+}
 
 /**
- *  Remove uma linha de uma tabela pelo ID do registro
+ * Remove uma linha de uma tabela pelo ID do registro
  */
-function delete( $table = null, $id = null ) 
+function delete($table = null, $id = null)
 {
-    
     $database = open_database();
     
     try {
@@ -181,16 +223,16 @@ function delete( $table = null, $id = null )
     
     close_database($database);
 }
-    
+
 function buscarUsuarios($id = null)
 {
     $found = null;
     $sql = null;
     try {
         $database = open_database();
-        if($id){
+        if ($id) {
             $sql = "select u.id, u.login, u.administrador, u.senha, m.nome, m.email from usuario u join membro m on u.id_membro = m.id WHERE u.id = " . $id;
-        }else{
+        } else {
             $sql = "select u.id, u.login, u.administrador, u.senha, m.nome, m.email from usuario u join membro m on u.id_membro = m.id";
         }
         $result = $database->query($sql);
