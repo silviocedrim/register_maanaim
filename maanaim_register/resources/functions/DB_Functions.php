@@ -157,7 +157,7 @@ function insertFormasDePagamento($input_data, $codCampista)
     $values = null;
     
     $database = open_database();
-    
+    $i = 0;
     foreach ($input_data as $key => $forma_pagamento) {
         foreach ($forma_pagamento as $key => $value) {
             $columns .= trim($key, "'") . ",";

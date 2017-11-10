@@ -24,7 +24,6 @@ require_once ('../../resources/functions/buscar_cep.php');
         <link href="../../bootstrap-3.3.7/css/bootstrap-theme.css" rel="stylesheet">
 		<link href="../../bootstrap-3.3.7/css/estilo.css" rel="stylesheet" />
 		<link href="../../bootstrap-3.3.7/css/bootstrap-datetimepicker.css" rel="stylesheet">
-                
         
         <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/ui.css?ln=css" />
         <link type="text/css" rel="stylesheet" href="../../bootstrap-3.3.7/css/messages.css?ln=css" />

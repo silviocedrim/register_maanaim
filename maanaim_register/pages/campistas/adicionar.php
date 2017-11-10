@@ -48,7 +48,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     insertFormasDePagamento($formas, $id_campista);
     
     
-//     header("Location: lista.php");
+    header("Location: lista.php");
 }
 
 
@@ -60,18 +60,15 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     <body>
     	<div class="col-md-12">
        		<header>
-        		<div class="row">
-            		<div class="col-sm-6">
-            			<h2>Inscri&ccedil;&atilde;o</h2>
-            		</div>
-        		</div>
-	
+        		
         		<!-- MASCARA -->
                  <script>
                   
     				jQuery(function($){
     					correios.init( '6CTKkcmHuqSnl90jz58KxXe5DMDld9gi', 'Z6Urr77Dz3H9UXv6j6buyC1FsLV8kPoobq8ho1LqXB4yEVyh' );
     					$('#loading').hide();
+    					$('#loading_cpf').hide();
+    					$('#mensagem_cpf').hide();
         				$('#cep').correios( '#rua', '#bairro', '#cidade', '#uf', '#loading', '#numero' );
                         $("#cpf").mask("999.999.999-99");
                         $("#altura").mask("9.99");
@@ -144,7 +141,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
         				.on('changeDate', function(ev){
 
         					var dia = ev.date.getDate();
-            				var mes = ev.date.getMonth();
+            				var mes = ev.date.getMonth() + 1;
             				var ano = ev.date.getFullYear();
             				
         				    var data =  dia + '/' + mes + '/' + ano;
@@ -161,16 +158,46 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
 
 
     			
-             		function validarCPF(formName){ // declaro o início do jquery
+             		function validarCPF(){ // declaro o início do jquery
                     	var cpf = $("input[name='cpf']").val();
                     	cpf = cpf.replace('.', '').replace('.', '').replace('-', '');
+
+                    	
+                            var dados = $('#formInscricao').serialize();
+
+							$.ajax({
+                                type: 'POST',
+                                dataType: 'json',
+                                url: '../../resources/functions/valida_cpf.php',
+                                async: true,
+                                data: cpf,
+                                success: function(response) {
+                                    if(response){
+                                    	$('#mensagem_cpf').show();
+                                    	$('#cpf').val('');
+                                    	$('#cpf').css({"border-color" : "#F00", "padding": "2px"});
+                                    	$('#cpf').focus();
+                                    	
+                                	}else{
+                                		$('#mensagem_cpf').hide();
+                                    	
+                                	}
+                                }
+                            });
+
+                            return false;
+                        
 
                     }// fim do jquery
 
             	</script>
         		
         	</header>
-        	
+        	<div id="mensagem_cpf" class="row">
+        		<div class="alert alert-danger alert-dismissible" role="alert">
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>J&aacute; existe um campista inscrito com este CPF.
+                </div>
+        	</div>
         	<div class="row">
         		<div class="panel panel-default">
             		<div class="panel-heading">Cadastrar Campista</div>
@@ -185,7 +212,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
          					
          						<div class="form-group col-md-4">
                                   <label for="nome">Respons&agrave;vel pela Inscri&ccedil;&atilde;o</label>
-                                  <input type="text" class="form-control" id="nome" name="nome" disabled value="<?php echo $nome_responsavel;?>">
+                                  <input type="text" class="form-control" id="nome_responsavel" name="nome_responsavel" disabled value="<?php echo $nome_responsavel;?>">
                             	</div>
                         	</div>
                         	
@@ -197,8 +224,8 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                             			<div class="panel-body">
                                         	<div class="row">
                          						<div class="form-group col-md-6">
-                                                 	<label for="cpf">CPF</label>
-                                                  	<input type="text" class="form-control" id="cpf" name="cpf">
+                                                 	<label for="cpf">CPF<img id="loading_cpf" width="80" height="50" src="../../resources/img/loading.gif" /></label>
+                                                  	<input type="text" class="form-control" id="cpf" name="cpf" onblur="javascript:validarCPF()">
                                             	</div>
                          						<div class="form-group col-md-6">
                                                   <label for="nome">Nome</label>
@@ -251,6 +278,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                                                 	<select class="form-control selectpicker" name="camisa" id="camisa">
                                                 		<option value="">--SELECIONE--</option>
                                                     	<option value="pp">PP</option>
+                                                    	<option value="p">P</option>
                                                     	<option value="m">M</option>
                                                     	<option value="g">G</option>
                                                     	<option value="gg">GG</option>
@@ -530,7 +558,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                                                	</div>
                                           	</div>
                                           	<div class="row">
-                                              	<div class="form-group col-md-12">
+                                              	<div class="form-group col-md-7">
                                                   	<label for="observacoes_pagamento">Observa&ccedil;&otilde;es de Pagamento</label>
                                 					<textarea id="observacoes_pagamento" cols="40" rows="2" class="form-control"></textarea>
                                               	</div>

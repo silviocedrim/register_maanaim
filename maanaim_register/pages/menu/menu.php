@@ -1,6 +1,6 @@
 <?php session_start()?>
-<div class="container">
-	<div class="row">
+
+	<div class="row" style="margin-left: 2px; margin-right: 2px;">
     	<nav class="navbar navbar-default">
     		<div class="container-fluid">
     			<div class="navbar-header">
@@ -32,4 +32,3 @@
     		
     	</nav>
     </div>
-</div>

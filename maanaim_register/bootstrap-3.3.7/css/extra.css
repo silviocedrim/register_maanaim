@@ -597,5 +597,11 @@ input[type="text"], input[type="password"], select, .ui-autocomplete-input, opti
 	margin: 0 auto;
 	padding: 48px
 }
+
+.focus(function(){
+
+  $(this).toggleClass('campo_focus');
+
+});
 	
 
