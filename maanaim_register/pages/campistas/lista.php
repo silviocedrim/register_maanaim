@@ -34,17 +34,35 @@ $mensagens = new Mensagens();
                 					<tr>
                 						<th>Nome</th>
                 						<th>CPF</th>
-                						<th align="center">A&ccedil;&otilde;es</th>
+                						<th>Data nascimento</th>
+                						<th>Idade</th>
+                						<th>Altura</th>
+                						<th>Peso</th>
+                						<th>Telefone</th>
+                						<th>Respons&aacutevel</th>
+                						<th>Telefone respons&aacutevel</th>
+                						<th class="ui-state-default text-center">A&ccedil;&otilde;es</th>
                 					</tr>
                 				</thead>
                 				
-                				<?php foreach ($dados as $campista){ 
+                				<?php
+                				if(count($dados) > 0){
+                				    foreach ($dados as $campista){ 
+                				
                 				?>
                 				
                 				<tbody>
                 					<tr>
                 						<td><?php echo $campista['nome']; ?></td>
                 						<td><?php echo Mask('###.###.###-##', $campista['cpf']); ?></td>
+                						<td><?php echo $campista['data_nascimento']; ?></td>
+                						<td><?php echo $campista['idade']; ?></td>
+                						<td><?php echo $campista['altura']; ?></td>
+                						<td><?php echo $campista['peso']; ?></td>
+                						<td><?php echo $campista['telefone']; ?></td>
+                						<td><?php echo $campista['responsavel']; ?></td>
+                						<td><?php echo $campista['telefone_responsavel']; ?></td>
+                						
                 						<td align="center">
                 							<a title="Alterar" class="btn-sm btn-warning" href="editar.php?id=<?php echo $campista['id']?>"><i class="fa fa-pencil-square-o"></i></a>
                    							<a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $campista['id']?>" class="btn-sm btn-danger tooltipBtn"><i class="fa fa-trash-o"></i></a>
@@ -52,7 +70,17 @@ $mensagens = new Mensagens();
                 					</tr>
                 				</tbody>
                 				
-                				<?php }?>
+                				<?php
+                				    } 
+            				    }else {?>
+            				    <tfoot>
+                					<tr>
+                						<td colspan="10">Ainda n&atildeo h&aacute campistas inscritos</td>
+            						</tr>
+        						</tfoot>
+            				    <?php
+                				} 
+            				    ?>
                 				
                 			</table>
                 			

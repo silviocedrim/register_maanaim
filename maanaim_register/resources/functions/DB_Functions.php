@@ -224,16 +224,16 @@ function delete($table = null, $id = null)
     close_database($database);
 }
 
-function buscarUsuarios($id = null)
+function buscarMembros($id = null)
 {
     $found = null;
     $sql = null;
     try {
         $database = open_database();
         if ($id) {
-            $sql = "select u.id, u.login, u.administrador, u.senha, m.nome, m.email from usuario u join membro m on u.id_membro = m.id WHERE u.id = " . $id;
+            $sql = "select * from membro m WHERE m.id = " . $id;
         } else {
-            $sql = "select u.id, u.login, u.administrador, u.senha, m.nome, m.email from usuario u join membro m on u.id_membro = m.id";
+            $sql = "select * from membro";
         }
         $result = $database->query($sql);
         if ($result->num_rows > 0) {

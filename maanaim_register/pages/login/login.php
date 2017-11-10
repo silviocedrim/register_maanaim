@@ -8,19 +8,19 @@ if (isset($_POST['login']) && empty($_POST['login']) == false) {
     $login = addslashes($_POST['login']);
     $senha = addslashes($_POST['senha']);
     
-    $result = login(USUARIO, $login, $senha);
+    $result = login(MEMBRO, $login, $senha);
     
     if ($result) {
         $_SESSION['administrador'] = $result['administrador'];
         $_SESSION['id'] = $result['id'];
         
         $id_membro = $result['id_membro'];
-        $usuario = buscarUsuarios($id_membro);
+        $usuario = buscarMembros($id_membro);
         
         
         $_SESSION['nome'] = $usuario[0]['nome'];
         
-        header("Location: ../usuarios_sistema/lista.php");
+        header("Location: ../membros/lista.php");
     }else{
         echo '<div class="alert alert-danger alert-dismissible" role="alert">';
         echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';

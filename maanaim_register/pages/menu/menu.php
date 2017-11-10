@@ -17,11 +17,8 @@
     				<ul class="nav navbar-nav">
     				
     					<li><a href="../membros/lista.php">Membros</a></li>
-    					<li><a href="../usuarios_sistema/lista.php">Usu&aacute;rios</a></li>
     					<li><a href="../campistas/lista.php">Campistas</a></li>
-    					
-    					
-    					   <li><a href="../login/login.php">Sair</a></li>
+    					<li><a href="../login/login.php">Sair</a></li>
     				</ul>
     				
     			</div>

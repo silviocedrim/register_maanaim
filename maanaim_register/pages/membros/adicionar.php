@@ -15,7 +15,7 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
 <!DOCTYPE html>
 <html lang="pt-br">
     <body>
-    	<div class="container">
+    	<div class="col-sm-12">
        		<header>
         		<div class="row">
             		<div class="col-sm-6">
@@ -33,17 +33,19 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
         				<form method = "POST" data-toggle="validator">
          					<div class="row">
                 
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-4">
                                   <label for="nome">Nome</label>
                                   <input type="text" class="form-control" id="nome" name="nome" required>
                             	</div>
-                                
+                        	</div>
+                            <div class="row">
                                 <div class="form-group col-md-4">
                                   <label for="email">E-mail</label>
                                   <input type="email" class="form-control" placeholder="email@exemplo.com" name="email" required>
                             	</div>
-                                
-                                <div class="form-group col-md-3">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
                                   	<label for="grau_pertenca">Grau de Perten&ccedil;a</label>
                                 	<select class="form-control selectpicker" name="grau_pertenca" id="grau_pertenca" required>
                                 		<option value="">--Selecione--</option>
@@ -53,6 +55,18 @@ if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
                                     	<option value="consagrado">CONSAGRADO</option>
                                 	</select>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                  <label for="login">Login</label>
+                                  <input type="text" class="form-control" name="login" required>
+                            	</div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                  <label for="senha">Senha</label>
+                                  <input type="password" class="form-control" name="senha" required>
+                            	</div>
                             </div>
                             <div class=row>
                 				<div class="form-group col-md-4">

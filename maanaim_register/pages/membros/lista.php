@@ -9,7 +9,7 @@ $mensagens = new Mensagens();
 <!DOCTYPE html>
 <html lang="pt-br">
     <body>
-    	<div class="container">
+    	<div class="col-md-12">
        		<header>
         		<div class="row">
             		<div class="col-sm-6">
@@ -36,7 +36,8 @@ $mensagens = new Mensagens();
                 						<th>Nome</th>
                 						<th>E-mail</th>
                 						<th>Grau de Perten&ccedil;a</th>
-                						<th align="center">A&ccedil;&otilde;es</th>
+                						<th>Login</th>
+                						<th class="ui-state-default text-center">A&ccedil;&otilde;es</th>
                 					</tr>
                 				</thead>
                 				
@@ -48,9 +49,10 @@ $mensagens = new Mensagens();
                 						<td><?php echo $membro['nome']; ?></td>
                 						<td><?php echo $membro['email']; ?></td>
                 						<td><?php echo formatarGrauDePertencia($membro['grau_pertenca']); ?></td>
+                						<td><?php echo $membro['login']; ?></td>
                 						<td align="center">
-                							<a title="Alterar" class="btn btn-sm btn-warning" href="editar.php?id=<?php echo $membro['id']?>">&#9999; Alterar</a>
-                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $membro['id']?>" class="btn btn-sm btn-danger tooltipBtn">&#10006; Excluir</a>
+                							<a title="Alterar" class="btn-sm btn-warning" href="editar.php?id=<?php echo $membro['id']?>"><i class="fa fa-pencil-square-o"></i></a>
+                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $membro['id']?>" class="btn-sm btn-danger tooltipBtn"><i class="fa fa-trash-o"></i></a>
                    						</td>
                 					</tr>
                 				</tbody>

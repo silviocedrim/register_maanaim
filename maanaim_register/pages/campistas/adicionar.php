@@ -42,7 +42,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
         
     }
     unset($inserir['formas_pagamentos']);
-    
+//     $inserir = array('id_responsavel' => $_SESSION['id']);
     insert(CAMPISTA, $inserir);
     $id_campista = consultaIdUltimoCampista();
     insertFormasDePagamento($formas, $id_campista);
