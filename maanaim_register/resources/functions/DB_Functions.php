@@ -128,6 +128,7 @@ function insert($table = null, $data = null)
     
     $database = open_database();
     
+    $insert_id = null;
     foreach ($data as $key => $value) {
         $columns .= trim($key, "'") . ",";
         $values .= "'$value',";
@@ -140,6 +141,7 @@ function insert($table = null, $data = null)
     $sql = "INSERT INTO " . $table . "($columns)" . " VALUES " . "($values);";
     try {
         $database->query($sql);
+        $insert_id = $database->insert_id;
         
         $_SESSION['message'] = 'Registro cadastrado com sucesso.';
         $_SESSION['type'] = 'success';
@@ -149,6 +151,7 @@ function insert($table = null, $data = null)
         $_SESSION['type'] = 'danger';
     }
     close_database($database);
+    return $insert_id;
 }
 
 function insertFormasDePagamento($input_data, $codCampista)

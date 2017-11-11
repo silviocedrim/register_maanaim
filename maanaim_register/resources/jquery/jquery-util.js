@@ -73,27 +73,7 @@ function addTableRow()
 
 	return false;
 }
-var pagamentos = new Array();
 
-function beforeSave()
-{
-	var table = $('#table_forma_pagamento tbody');
-	
-	table.find('tr').each(function() {
-	  $.each($(this).find('td'), function(index,item){
-		  if(index != 4){
-			  pagamentos.push($(item).text());
-		  }
-		  
-	  });
-	});
-	
-	var hidden = document.getElementById('formas_pagamentos');
- 	var form = document.getElementById('formInscricao');
- 	
- 	hidden.value = pagamentos;
- 	form.submit();
-}
 
 function removeTableRow(item)
 {

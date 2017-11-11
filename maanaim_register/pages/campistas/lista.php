@@ -1,6 +1,7 @@
 <?php
 require_once ('../include/header.php');
 require_once ('../menu/menu.php');
+include('detalhes.php');
 
 $dados = buscarTodosOsRegistros(CAMPISTA);
 $mensagens = new Mensagens();
@@ -16,7 +17,7 @@ $mensagens = new Mensagens();
             			<h2>Campistas</h2>
             		</div>
     				<div class="col-sm-6 text-right h2" align="right">
-    					<a href="adicionar.php" class="btn btn-sm btn-primary">&#10010 Nova Inscri&ccedil;&atilde;o</a>
+    					<a href="adicionar.php" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Nova Inscri&ccedil;&atilde;o</a>
     				</div>
         		</div>
         		
@@ -64,8 +65,11 @@ $mensagens = new Mensagens();
                 						<td><?php echo $campista['telefone_responsavel']; ?></td>
                 						
                 						<td align="center">
-                							<a title="Alterar" class="btn-sm btn-warning" href="editar.php?id=<?php echo $campista['id']?>"><i class="fa fa-pencil-square-o"></i></a>
-                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $campista['id']?>" class="btn-sm btn-danger tooltipBtn"><i class="fa fa-trash-o"></i></a>
+                							<a title="Alterar" class="btn-sm btn-warning tooltipBtn" href="editar.php?id=<?php echo $campista['id']?>"><i class="fa fa-pencil-square-o"></i></a>
+                   							<a title="Excluir" class="btn-sm btn-danger tooltipBtn" href="excluir.php?id=<?php echo $campista['id']?>" id="btn-excluir"><i class="fa fa-trash-o"></i></a>
+                   							<a title="Detlahes" class="btn-sm btn-primary tooltipBtn" data-toggle="modal" data-target="#modalDetalhes">
+                                              <i class="fa fa-search"></i>
+                                            </a>
                    						</td>
                 					</tr>
                 				</tbody>
@@ -90,6 +94,25 @@ $mensagens = new Mensagens();
     		</div>
     	
     	</div>
+    	 <div class="modal fade" id="modalDetalhes" tabindex="-1" role="dialog" aria-labelledby="modalDetalhes" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+		</div>
     </body>
 </html>
 

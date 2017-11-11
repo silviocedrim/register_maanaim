@@ -42,9 +42,9 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
         
     }
     unset($inserir['formas_pagamentos']);
-//     $inserir = array('id_responsavel' => $_SESSION['id']);
-    insert(CAMPISTA, $inserir);
-    $id_campista = consultaIdUltimoCampista();
+    $inserir['id_responsavel'] = $_SESSION['id'];
+
+    $id_campista = insert(CAMPISTA, $inserir);
     insertFormasDePagamento($formas, $id_campista);
     
     
@@ -69,6 +69,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     					$('#loading').hide();
     					$('#loading_cpf').hide();
     					$('#mensagem_cpf').hide();
+    					$('#mensagem_obrigatorio').hide();
         				$('#cep').correios( '#rua', '#bairro', '#cidade', '#uf', '#loading', '#numero' );
                         $("#cpf").mask("999.999.999-99");
                         $("#altura").mask("9.99");
@@ -180,6 +181,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                                     	
                                 	}else{
                                 		$('#mensagem_cpf').hide();
+                                		$('#mensagem_obrigatorio').hide();
                                     	
                                 	}
                                 }
@@ -190,12 +192,65 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
 
                     }// fim do jquery
 
+
+                    function confirmar(){
+                    	$('#myModal').on('shown.bs.modal', function () {
+                    		  $('#myInput').trigger('focus')
+                    	});
+                    }
+
+                    var pagamentos = new Array();
+                    
+                    function beforeSave()
+                    {
+                    	var table = $('#table_forma_pagamento tbody');
+                    	
+                    	table.find('tr').each(function() {
+                    	  $.each($(this).find('td'), function(index,item){
+                    		  if(index != 4){
+                    			  pagamentos.push($(item).text());
+                    		  }
+                    		  
+                    	  });
+                    	});
+                    	
+                    	var hidden = document.getElementById('formas_pagamentos');
+                     	var form = document.getElementById('formInscricao');
+                     	var nomeNaoPreenchido = ($('#nome').val() == '');
+                     	var cpfNaoPreenchido = ($('#cpf').val() == '');
+                     	
+                     	if(cpfNaoPreenchido){
+                     		$('#cpf').css({"border-color" : "#F00", "padding": "2px"});
+                         	$('#cpf').focus();
+                     	}
+                     	
+                     	if(nomeNaoPreenchido){
+                     		$('#nome').css({"border-color" : "#F00", "padding": "2px"});
+                         	$('#nome').focus();
+                         	
+                     	}
+                     	
+                     	
+                     	if(nomeNaoPreenchido || cpfNaoPreenchido){
+                     		$('#mensagem_obrigatorio').show();
+                     		return;
+                     	}
+                     	
+                     	hidden.value = pagamentos;
+                     	form.submit();
+                    }
+
             	</script>
         		
         	</header>
         	<div id="mensagem_cpf" class="row">
         		<div class="alert alert-danger alert-dismissible" role="alert">
                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>J&aacute; existe um campista inscrito com este CPF.
+                </div>
+        	</div>
+        	<div id="mensagem_obrigatorio" class="row">
+        		<div class="alert alert-danger alert-dismissible" role="alert">
+                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Campo(s) obrigat&oacuterio(s)
                 </div>
         	</div>
         	<div class="row">
@@ -573,8 +628,9 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                           	
                             <div class=row>
                 				<div class="form-group col-md-4">
-                					<a id="btn_salvar" onclick="javascript:beforeSave()" class="btn btn-primary">&#10003 Salvar</a> 
-                					<a href="lista.php" class="btn btn-danger">&#10005 Cancelar</a>
+                					<a id="btn_salvar" onclick="javascript:beforeSave()" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Salvar</a> 
+                					<a href="lista.php" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+                					
                                	</div>
                            	</div>
         				</form>
@@ -582,7 +638,11 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
         		</div>
     		</div>
         </div>
+        
+      
    </body>
+   
+    
 </html>
        
       
