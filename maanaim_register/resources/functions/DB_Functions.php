@@ -143,6 +143,7 @@ function insert($table = null, $data = null)
         $database->query($sql);
         $insert_id = $database->insert_id;
         
+        
         $_SESSION['message'] = 'Registro cadastrado com sucesso.';
         $_SESSION['type'] = 'success';
     } catch (Exception $e) {
@@ -151,6 +152,7 @@ function insert($table = null, $data = null)
         $_SESSION['type'] = 'danger';
     }
     close_database($database);
+ 
     return $insert_id;
 }
 
@@ -175,7 +177,7 @@ function insertFormasDePagamento($input_data, $codCampista)
         $values = rtrim($values, ',');
         
         $sql = "INSERT INTO " . PAGAMENTOS . "(" . $columns . ") VALUES (" . $values . ");";
-        $database->query($sql);
+        $teste = $database->query($sql);
         
         $columns = null;
         $values = null;
@@ -241,6 +243,30 @@ function buscarMembros($id = null)
         $result = $database->query($sql);
         if ($result->num_rows > 0) {
             $found = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    } catch (Exception $e) {
+        $_SESSION['message'] = $e->GetMessage();
+        $_SESSION['type'] = 'danger';
+    }
+    close_database($database);
+    return $found;
+}
+
+function buscarPagamentosPorCampista($id)
+{
+    $found = null;
+    try {
+        $database = open_database();
+        
+        $sql = "SELECT * FROM " . PAGAMENTOS . " WHERE id_campista = " . $id;
+        $result = $database->query($sql);
+      
+        if($result){
+            print_r($result);
+            if ($result->num_rows > 0) {
+                $found = $result->fetch_assoc();
+                print_r($found);
+            }
         }
     } catch (Exception $e) {
         $_SESSION['message'] = $e->GetMessage();

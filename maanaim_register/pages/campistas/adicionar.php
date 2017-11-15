@@ -43,7 +43,8 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     }
     unset($inserir['formas_pagamentos']);
     $inserir['id_responsavel'] = $_SESSION['id'];
-
+    
+    
     $id_campista = insert(CAMPISTA, $inserir);
     insertFormasDePagamento($formas, $id_campista);
     
@@ -254,7 +255,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                 </div>
         	</div>
         	<div class="row">
-        		<div class="panel panel-default">
+        		<div class="panel panel-info">
             		<div class="panel-heading">Cadastrar Campista</div>
         			<div class="panel-body">
         			
@@ -531,7 +532,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                 			
                 			<div class="row">
                             	<div class="col-md-12">
-                                	<div class="panel panel-default">
+                                	<div class="panel panel-success">
                                 		<div class="panel-heading">Pagamento</div>
                             			<div class="panel-body">
                                           	<div class="row">
