@@ -1,10 +1,11 @@
 <?php
 require_once ('../include/header.php');
 require_once ('../menu/menu.php');
-include('detalhes.php');
+include('../include/modal.php');
 
 $dados = buscarTodosOsRegistros(CAMPISTA);
 $mensagens = new Mensagens();
+
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +13,32 @@ $mensagens = new Mensagens();
     <body>
     	<div class="col-md-12">
        		<header>
+       			<script>
+
+       			
+					$('#modalDetalhes').on('show.bs.modal', function (event) {
+       			  
+                        var button = $(event.relatedTarget);
+                        var id_campista = button.data('campista');
+                        var modal = $(this);
+                        
+                        $.ajax({
+                        	type: "POST",
+                        	url: "detalhes.php",
+                        	data: "id="+id_campista,
+                        	success: function(message){
+                        		$("#modal-body").html(message);
+                        		$("#modalDetalhes").modal({ backdrop: 'static' });  
+                        	},
+                        		error: function(){
+                        	alert("Error");
+                        	}
+                    	});
+       				});
+           				
+
+       			</script>
+       		
         		<div class="row">
             		<div class="col-sm-6">
             			<h2>Campistas</h2>
@@ -66,53 +93,25 @@ $mensagens = new Mensagens();
                 						
                 						<td align="center">
                 							<a title="Alterar" class="btn-sm btn-warning tooltipBtn" href="editar.php?id=<?php echo $campista['id']?>"><i class="fa fa-pencil-square-o"></i></a>
-                   							<a title="Excluir" class="btn-sm btn-danger tooltipBtn" href="excluir.php?id=<?php echo $campista['id']?>" id="btn-excluir"><i class="fa fa-trash-o"></i></a>
-                   							<a title="Detlahes" class="btn-sm btn-primary tooltipBtn" data-toggle="modal" data-target="#modalDetalhes">
+                   							<?php if(isAdministrador()) { ?><a title="Excluir" class="btn-sm btn-danger tooltipBtn" href="excluir.php?id=<?php echo $campista['id']?>" id="btn-excluir"><i class="fa fa-trash-o"></i></a><?php }?>
+                   							<a title="Detlahes" class="btn-sm btn-primary tooltipBtn" href="#" data-toggle="modal" data-target="#modalDetalhes" data-campista="<?php echo $campista['id']; ?>" >
                                               <i class="fa fa-search"></i>
                                             </a>
                    						</td>
                 					</tr>
                 				</tbody>
-                				
                 				<?php
                 				    } 
-            				    }else {?>
-            				    <tfoot>
-                					<tr>
-                						<td colspan="10">Ainda n&atildeo h&aacute campistas inscritos</td>
-            						</tr>
-        						</tfoot>
-            				    <?php
-                				} 
-            				    ?>
-                				
+            				    }?>
                 			</table>
-                			
                     		<!-- END TABLE -->
             		</div>
         		</div>
     		</div>
     	
     	</div>
-    	 <div class="modal fade" id="modalDetalhes" tabindex="-1" role="dialog" aria-labelledby="modalDetalhes" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-		</div>
+    	
+    	
     </body>
 </html>
 

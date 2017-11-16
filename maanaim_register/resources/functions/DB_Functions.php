@@ -262,10 +262,8 @@ function buscarPagamentosPorCampista($id)
         $result = $database->query($sql);
       
         if($result){
-            print_r($result);
             if ($result->num_rows > 0) {
-                $found = $result->fetch_assoc();
-                print_r($found);
+                $found = $result->fetch_all(MYSQLI_ASSOC);
             }
         }
     } catch (Exception $e) {
