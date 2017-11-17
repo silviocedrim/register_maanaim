@@ -144,3 +144,83 @@ body {
               }
    
    }
+   
+   
+   .inscricao{
+	margin-left: 50px;
+   }
+   
+   .termo1{
+	border: 1px solid #000000;
+	float: left;
+	width: 120px;
+	height: 20px;
+	margin-left: 50px;
+   }
+   
+   .termo2{
+	border: 1px solid #000000;
+	float: left;
+	width: 250px;
+	height: 20px;
+	margin-left: 50px;
+   }
+   
+   .termo3{
+	border: 1px solid #000000;
+	float: left;
+	width: 350px;
+	height: 20px;
+	margin-left: 50px;
+   }
+   
+   .resposta{
+	/*border: 1px solid #000000;*/
+	float: left;
+	background-color: #87CEFA;
+	min-width: 100px;
+	max-width: 500px;
+   }
+   
+   .barrazul{
+	font-size: 20px;
+	width: 760px;
+	height: 70px;
+	background-color: #4682B4;
+   }
+   
+   .assinatura{
+	border-top: dashed;
+	margin-left: 150px;
+	width: 500px;
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+   }
+   
+   .barravermelha{
+	font-size: 20px;
+	width: 760px;
+	height: 70px;
+	background-color: #A52A2A;
+   }
+   
+   .titulo{
+	margin-left: 150px;
+	color: #FFFFFF;
+   }
+   
+   .bottomaanaim{
+    font-size: 15px;
+	width: 760px;
+	height: 70px;
+    border: 2px solid #000000;
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+   }
+   

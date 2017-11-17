@@ -51,7 +51,6 @@ if (isset($_POST['id']) && empty($_POST['id']) == false) {
                 				<?php
                 				if (count($pagamentos) > 0) {
                 				    foreach ($pagamentos as $pagamento) {
-                				        print_r($pagamento['valor']);
                 				        $valor_total += (double)$pagamento['valor'];
                 				        $valor_descontos += (double)$pagamento['desconto'];?>
                 				     
@@ -83,7 +82,7 @@ if (isset($_POST['id']) && empty($_POST['id']) == false) {
         		</div>
         		<!-- END PAGAMENTO -->
         		<?php if (count($pagamentos) > 0) {
-        		    $valor_pendente = 180 - $valor_total - $valor_descontos; 
+        		    $valor_pendente = 170 - $valor_total - $valor_descontos; 
         		?>
             		<div class="form-group">
         				<label>Valor pago: R$ </label> <?php echo $valor_total; ?>

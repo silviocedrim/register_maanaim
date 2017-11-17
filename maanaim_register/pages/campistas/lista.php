@@ -60,6 +60,7 @@ $mensagens = new Mensagens();
                 			<table class="table table-bordered table-striped">
                 				<thead  class="blue-grey lighten-4">
                 					<tr>
+                						<th>N&ordm; Ficha</th>
                 						<th>Nome</th>
                 						<th>CPF</th>
                 						<th>Data nascimento</th>
@@ -81,6 +82,7 @@ $mensagens = new Mensagens();
                 				
                 				<tbody>
                 					<tr>
+                						<td><?php echo $campista['id']; ?>
                 						<td><?php echo $campista['nome']; ?></td>
                 						<td><?php echo Mask('###.###.###-##', $campista['cpf']); ?></td>
                 						<td><?php echo $campista['data_nascimento']; ?></td>

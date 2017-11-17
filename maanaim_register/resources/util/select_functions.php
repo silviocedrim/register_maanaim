@@ -52,5 +52,24 @@ function selected_sacramento($sacramento=null)
     echo $select;
 }
 
+function selected_sexo($sexo=null)
+{
+    $array_sexo = array("MASCULINO", "FEMININO");
+    $select = '<select class="form-control selectpicker" name="sexo" id="sexo">';
+    $select .= '<option value="">--SELECIONE--</option>';
+    foreach($array_sexo as $val){
+        
+        if($sexo){
+            $sel = ($val == $sexo)?'selected="selected"':'';
+            $select .= '<option value="'.$val.'" '.$sel.'>'. $val .'</option>';
+        }else{
+            $select .= '<option value="'.$val.'">'. $val .'</option>';
+        }
+        
+    }
+    $select .= '</select>';
+    echo $select;
+}
+
 
 ?>

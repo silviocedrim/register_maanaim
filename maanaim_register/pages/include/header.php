@@ -13,6 +13,9 @@ require_once ('../../resources/functions/buscar_cep.php');
 <html>
     <head>
     
+    	<title>Maanaim Register</title>
+    	<link rel="shortcut icon" type="image/x-icon" href="../../resources/img/favicon.ico">
+    
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
        
@@ -52,7 +55,7 @@ require_once ('../../resources/functions/buscar_cep.php');
 		<script src="https://use.fontawesome.com/733ba84802.js"></script>
         
         
-        <title>Maanaim Register</title>
+        
         
     </head>
 </html>
