@@ -49,9 +49,8 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     insertFormasDePagamento($formas, $id_campista);
     
     
-    header("Location: lista.php");
-    echo "<script>window.open('imprimirinscricao.php?id=".$id_campista."', '', 'location=1, status=1, scrollbars=1, width=800, height=455')</script>";
-    
+    echo "<script>window.open('imprimirinscricao.php?id=".$id_campista."')</script>";
+    echo('<meta http-equiv="refresh" content="0;URL=lista.php">');
 }
 
 

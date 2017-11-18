@@ -35,11 +35,6 @@ $mensagens = new Mensagens();
                         	}
                     	});
        				});
-
-       				function imprimir(id){
-       					window.open("imprimirinscricao.php?id="+ id + "");
-       				}
-       				
            				
 
        			</script>
@@ -99,8 +94,9 @@ $mensagens = new Mensagens();
                 						<td><?php echo $campista['telefone_responsavel']; ?></td>
                 						
                 						<td align="center">
-                							<a title="Imprimir" class="btn-sm btn-primary tooltipBtn" href="#" onclick="javascript:imprimir('<?php echo $campista['id']; ?>')"><i class="fa fa-print"></i></a>
-                   							<a title="Detlahes" class="btn-sm btn-warning tooltipBtn" href="#" data-toggle="modal" data-target="#modalDetalhes" data-campista="<?php echo $campista['id']; ?>"><i class="fa fa-search"></i></a>
+                							<a title="Detlahes" class="btn-sm btn-primary tooltipBtn" href="#" data-toggle="modal" data-target="#modalDetalhes" data-campista="<?php echo $campista['id']; ?>" >
+                                              <i class="fa fa-search"></i>
+                                            </a>
                    						</td>
                 					</tr>
                 				</tbody>
