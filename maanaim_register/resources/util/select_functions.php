@@ -59,8 +59,29 @@ function selected_sexo($sexo=null)
     $select .= '<option value="">--SELECIONE--</option>';
     foreach($array_sexo as $val){
         
+           
         if($sexo){
-            $sel = ($val == $sexo)?'selected="selected"':'';
+            $sel = ($val == strtoupper($sexo))?'selected="selected"':'';
+            $select .= '<option value="'.$val.'" '.$sel.'>'. $val .'</option>';
+        }else{
+            $select .= '<option value="'.$val.'">'. $val .'</option>';
+        }
+        
+    }
+    $select .= '</select>';
+    echo $select;
+}
+
+function selected_camisa($camisa=null)
+{
+    $array_camisa = array("PP", "P", "M", "G", "GG", "XG");
+    $select = '<select class="form-control selectpicker" name="camisa" id="camisa">';
+    $select .= '<option value="">--SELECIONE--</option>';
+    foreach($array_camisa as $val){
+        
+        
+        if($camisa){
+            $sel = ($val == strtoupper($camisa))?'selected="selected"':'';
             $select .= '<option value="'.$val.'" '.$sel.'>'. $val .'</option>';
         }else{
             $select .= '<option value="'.$val.'">'. $val .'</option>';
