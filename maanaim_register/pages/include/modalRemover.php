@@ -1,5 +1,5 @@
 
- <div class="modal fade" id="modalRemover" tabindex="-1" role="dialog" aria-labelledby="modalRemover" aria-hidden="true">
+ <div class="modal fade" id="modalRemover" tabindex="-1" role="dialog" aria-labelledby="modalRemoverLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -12,8 +12,8 @@
       	<p>Tem certeza que deseja excluir esse registro?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Sim</button> 
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+        <button type="button"  class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
+        <button type="button" class="btn btn-danger" id="confirm">Sim</button>
       </div>
     </div>
   </div>

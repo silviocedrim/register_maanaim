@@ -13,4 +13,10 @@ define("MEMBRO", "membro");
 define("CAMPISTA", "campista");
 define("PAGAMENTOS", "pagamento_inscricao");
 
+/*
+ * ENUM SITUACAO CAMPISTA
+ */
+
+define("INSCRITO", "INSCRITO");
+define("DESISTENTE", "DESISTENTE");
 ?>

@@ -43,7 +43,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     }
     unset($inserir['formas_pagamentos']);
     $inserir['id_responsavel'] = $_SESSION['id'];
-    
+    $inserir['situacao'] = INSCRITO;
     
     $id_campista = insert(CAMPISTA, $inserir);
     insertFormasDePagamento($formas, $id_campista);

@@ -2,8 +2,9 @@
 require_once ('../include/header.php');
 require_once ('../menu/menu.php');
 include('../include/modal.php');
+include('../include/modalRemover.php');
 
-$dados = buscarTodosOsRegistros(CAMPISTA);
+$dados = buscarTodosOsCampistas(CAMPISTA);
 $mensagens = new Mensagens();
 
 ?>
@@ -13,8 +14,26 @@ $mensagens = new Mensagens();
     <body>
     	<div class="col-md-12">
        		<header>
-       			<script>
+       			<script type="text/javascript">
 
+
+           			$('#modalRemover').on('show.bs.modal', function (e) {
+    	       			  
+                        var button = $(e.relatedTarget);
+                        var modal = $(this);
+                        var id_campista = button.data('campista');
+                        modal.find('.modal-footer #confirm').on('click', function(){
+                        	$.ajax({
+								type:"POST",
+								url:"removerCampista.php",
+								data: "id="+id_campista,
+	                        	success: function(message){
+									modal.modal('toggle');
+									location.reload(true);
+	                        	}
+                        	});
+    					});
+       				});
        			
 					$('#modalDetalhes').on('show.bs.modal', function (event) {
        			  
@@ -36,6 +55,9 @@ $mensagens = new Mensagens();
                     	});
        				});
 
+					
+
+				
        				function imprimir(id){
        					window.open("imprimirinscricao.php?id="+ id + "");
        				}
@@ -102,6 +124,7 @@ $mensagens = new Mensagens();
                 							<a title="Alterar" class="btn-sm btn-warning" href="editar.php?id=<?php echo $campista['id']?>"><i class="fa fa-pencil-square-o"></i></a>
                    							<a title="Imprimir" class="btn-sm btn-info tooltipBtn" href="#" onclick="javascript:imprimir('<?php echo $campista['id']; ?>')"><i class="fa fa-print"></i></a>
                    							<a title="Detlahes" class="btn-sm btn-success tooltipBtn" href="#" data-toggle="modal" data-target="#modalDetalhes" data-campista="<?php echo $campista['id']; ?>"><i class="fa fa-search"></i></a>
+                   							<a title="Remover" class="btn-sm btn-danger tooltipBtn" href="#" data-toggle="modal" data-target="#modalRemover" data-campista="<?php echo $campista['id']; ?>"><i class="fa fa-trash"></i></a>
                    						</td>
                 					</tr>
                 				</tbody>

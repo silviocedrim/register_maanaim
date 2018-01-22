@@ -37,6 +37,25 @@ function buscarTodosOsRegistros($table = null)
     return $found;
 }
 
+function buscarTodosOsCampistas($table = null)
+{
+    $found = null;
+    try {
+        $database = open_database();
+        
+        $sql = "SELECT * FROM " . $table . " WHERE situacao = '" . INSCRITO . "'";
+        $result = $database->query($sql);
+        if ($result->num_rows > 0) {
+            $found = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    } catch (Exception $e) {
+        $_SESSION['message'] = $e->GetMessage();
+        $_SESSION['type'] = 'danger';
+    }
+    close_database($database);
+    return $found;
+}
+
 function buscarRegistroPorId($table = null, $id = null)
 {
     $found = null;
