@@ -37,8 +37,8 @@ $dados = buscarTodosOsCampistas(CAMPISTA);
                 						<th>Idade</th>
                 						<th>Altura</th>
                 						<th>Peso</th>
-                						<th>conhece_campista</th>
-                						<th>conhece_equipe</th>
+                						<th>Conhece outros campistas?</th>
+                						<th>Conhece alguem da equipe?</th>
                 					</tr>
                 				</thead>
                 				
