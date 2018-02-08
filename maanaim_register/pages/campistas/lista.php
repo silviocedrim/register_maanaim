@@ -72,7 +72,7 @@ $mensagens = new Mensagens();
             		</div>
     				<div id="botaoinscricao" class="col-sm-6 text-right h2" align="right">
     					<a href="adicionar.php" class="btn btn-sm btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Nova Inscri&ccedil;&atilde;o</a>
-    					<a href="relatorioCampistasInscritos.php" class="btn btn-sm btn-info"><i class="fa fa-plus" aria-hidden="true"></i> Relat&oacute;rio </a>
+    					<a href="relatorioCampistasInscritos.php" target="_blank" class="btn btn-sm btn-info"><i class="fa fa-plus" aria-hidden="true"></i> Relat&oacute;rio </a>
     				</div>
     			</div>
         		
