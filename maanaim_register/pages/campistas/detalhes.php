@@ -10,7 +10,7 @@ $pagamentos = null;
 
 if (isset($_POST['id']) && empty($_POST['id']) == false) {
     $id = $_POST['id'];
-    $campista = buscarTodosOsRegistros(CAMPISTA);
+    $campista = buscarRegistroPorId(CAMPISTA, $id);
     $id_responsavel = $campista[0]['id_responsavel'];
     $responsavel = buscarMembros($id_responsavel);
     $nome_responsavel = $responsavel[0]['nome'];
@@ -51,7 +51,7 @@ if (isset($_POST['id']) && empty($_POST['id']) == false) {
                 				<?php
                 				if (count($pagamentos) > 0) {
                 				    foreach ($pagamentos as $pagamento) {
-                				        $valor_total += (double)$pagamento['valor'];
+                				        $valor_total += (double)$pagamento['valor']*$pagamento['quantidade_parcelas'];
                 				        $valor_descontos += (double)$pagamento['desconto'];?>
                 				     
                                 				
