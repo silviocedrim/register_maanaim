@@ -7,6 +7,7 @@ include('../include/modalRemover.php');
 $dados = buscarTodosOsCampistas(CAMPISTA);
 $mensagens = new Mensagens();
 
+
 ?>
 
 <!DOCTYPE html>
@@ -103,14 +104,14 @@ $mensagens = new Mensagens();
                 				</thead>
                 				
                 				<?php
-                				if(count($dados) > 0){
+                                if(!empty($dados)){
                 				    foreach ($dados as $campista){ 
                 				
                 				?>
                 				
                 				<tbody>
                 					<tr>
-                						<td><?php echo $campista['id']; ?>
+                						<td><?php echo $campista['numero_ficha']; ?>
                 						<td><?php echo $campista['nome']; ?></td>
                 						<td><?php echo Mask('###.###.###-##', $campista['cpf']); ?></td>
                 						<td><?php echo $campista['data_nascimento']; ?></td>

@@ -52,7 +52,7 @@ $mensagens = new Mensagens();
                 						<td><?php echo $membro['login']; ?></td>
                 						<td align="center">
                 							<a title="Alterar" class="btn-sm btn-warning" href="editar.php?id=<?php echo $membro['id']?>"><i class="fa fa-pencil-square-o"></i></a>
-                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=<?php echo $membro['id']?>" class="btn-sm btn-danger tooltipBtn"><i class="fa fa-trash-o"></i></a>
+<!--                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=--><?php //echo $membro['id']?><!--" class="btn-sm btn-danger tooltipBtn"><i class="fa fa-trash-o"></i></a>-->
                    						</td>
                 					</tr>
                 				</tbody>
