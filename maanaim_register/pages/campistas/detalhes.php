@@ -41,30 +41,42 @@ if (isset($_POST['id']) && empty($_POST['id']) == false) {
                 			<table class="table table-bordered table-striped">
                 				<thead>
                     				<tr role="row">
-                    					<th class="ui-state-default text-center">Tipo</th>
-                    					<th class="ui-state-default text-center">Valor / Parcela</th>
-                    					<th class="ui-state-default text-center">Quantidade de parcelas</th>
-                    					<th class="ui-state-default text-center">Desconto</th>
+                                        <th class="ui-state-default text-center">Forma</th>
+                                        <th class="ui-state-default text-center">Valor Total</th>
+                                        <th class="ui-state-default text-center">Parcelas</th>
                     				</tr>
                 				</thead>
                                 				
                 				<?php
                 				if (count($pagamentos) > 0) {
                 				    foreach ($pagamentos as $pagamento) {
-                				        $valor_total += (double)$pagamento['valor']*$pagamento['quantidade_parcelas'];
-                				        $valor_descontos += (double)$pagamento['desconto'];?>
-                				     
-                                				
-                				<tbody>
-                					<tr>
-                						<td class="ui-state-default text-center"><?php echo $pagamento['tipo']; ?></td>
-                						<td class="ui-state-default text-center">R$ <?php echo $pagamento['valor']; ?></td>
-                						<td class="ui-state-default text-center"><?php echo $pagamento['quantidade_parcelas']; ?></td>
-                						<td class="ui-state-default text-center">R$ <?php echo $pagamento['desconto']; ?></td>
-                					</tr>
-                				</tbody>
-                                				
-                                <?php 
+
+                                if ($pagamento['tipo'] != DESCONTO) {
+                                    $valor_total += (double)$pagamento['valor'];
+                                    $parcelas = $pagamento['quantidade_parcelas'];
+
+                                    if ($parcelas > 1) {
+                                        $valor = $pagamento['valor'];
+                                        $parcelas = $parcelas . " x R$ " . ($valor / $parcelas);
+                                    } else {
+                                        $parcelas = '-';
+                                    }
+                                    ?>
+
+
+                                    <tbody>
+                                    <tr>
+                                        <td class="ui-state-default text-center"><?php echo $pagamento['tipo']; ?></td>
+                                        <td class="ui-state-default text-center">R$ <?php echo $pagamento['valor']; ?></td>
+                                        <td class="ui-state-default text-center"><?php echo $parcelas; ?></td>
+                                    </tr>
+                                    </tbody>
+
+                                    <?php
+                                }else{
+                                    $valor_descontos = $pagamento['valor'];
+
+                                }
                 				    }
                                 } else { ?>
                             	<tfoot>
@@ -81,15 +93,13 @@ if (isset($_POST['id']) && empty($_POST['id']) == false) {
         			</div>
         		</div>
         		<!-- END PAGAMENTO -->
-        		<?php if (count($pagamentos) > 0) {
-        		    $valor_pendente = 170 - $valor_total - $valor_descontos; 
-        		?>
+        		<?php if (count($pagamentos) > 0) {?>
             		<div class="form-group">
-        				<label>Valor pago: R$ </label> <?php echo $valor_total; ?>
+        				<label>Valor total pago: R$ </label> <?php echo $valor_total != '' ? $valor_total : 0; ?>
             		</div>
-        		<?php if($valor_pendente > 0){?>
+        		<?php if($valor_descontos > 0){?>
                 		<div class="form-group">
-            				<label>Falta pagar: R$ </label> <?php echo $valor_pendente; ?>
+            				<label>Valor total de descontos: R$ </label> <?php echo $valor_descontos; ?>
                 		</div>
         		<?php } 
         		}?>

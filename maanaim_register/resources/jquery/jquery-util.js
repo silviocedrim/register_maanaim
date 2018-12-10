@@ -26,7 +26,6 @@ function addTableRow()
 	var valor;
 	var forma = $('#forma_pagamento').find(":selected").val();
 	var texto_forma = $('#forma_pagamento').find(":selected").text();
-	var desconto = $('#valor_desconto').val();
 	var parcelas;
 
 	var newRow = $("<tr>");
@@ -34,7 +33,8 @@ function addTableRow()
 	
 	if(forma == 'cartao_credito_parcelado'){
 		parcelas = $('#quantidade_parcela').val();
-		valor = 'R$ ' + $('#valor_parcela').val();
+		valor = $('#valor').val();
+		parcelas = parcelas + " x R$ " + (valor/parcelas);
 	}else if(forma == 'bolsa'){
 	
 	}
@@ -46,16 +46,13 @@ function addTableRow()
 		valor = '-';
 	}
 	
-	desconto = !desconto ? 'R$ 0' : 'R$ ' + desconto;
-	
 	if(!parcelas){
-		parcelas = '1';
+		parcelas = ' - ';
 	}
 
 	cols += '<td class="ui-state-default text-center">' + texto_forma + '</td>';
 	cols += '<td class="ui-state-default text-center valor">' + valor + '</td>';
 	cols += '<td class="ui-state-default text-center valor">' + parcelas + '</td>';
-	cols += '<td class="ui-state-default text-center">' + desconto + '</td>';
 	cols += '<td class="text-center">';
 	cols += '<a onclick="removeTableRow(this)" title="Remover" class="btn-sm btn-danger" aria-label="Remover"><i class="fa fa-trash-o"></i></a>';
 	cols += '</td>';
@@ -66,7 +63,6 @@ function addTableRow()
 	
 	valor = '';
 	$('#valor').val('');
-	$('#valor_desconto').val('');
 	$('#quantidade_parcela').val('');
 	$('#valor_parcela').val('');
 	$('#forma_pagamento').val('selecione');

@@ -6,9 +6,12 @@ $id = 0;
 $valor_total = null;
 $valor_pendente = null;
 $valor_descontos = null;
+$valor_total_pago = null;
 $id = null;
 $nome_responsavel = null;
 $pagamentos = null;
+$valor_descontos_concedidos = null;
+
 
 if (isset($_GET['id']) && empty($_GET['id']) == false) {
     $id = $_GET['id'];
@@ -161,31 +164,40 @@ if (isset($_GET['id']) && empty($_GET['id']) == false) {
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr role="row">
-								<th class="ui-state-default text-center">Tipo</th>
-								<th class="ui-state-default text-center">Valor / Parcela</th>
-								<th class="ui-state-default text-center">Quantidade de parcelas</th>
-								<th class="ui-state-default text-center">Desconto</th>
+								<th class="ui-state-default text-center">Forma</th>
+								<th class="ui-state-default text-center">Valor Total</th>
+								<th class="ui-state-default text-center">Parcelas</th>
 							</tr>
 						</thead>
                     				
     				<?php
         if (count($pagamentos) > 0) {
+
             foreach ($pagamentos as $pagamento) {
-                $valor_total += (double) $pagamento['valor'];
-                $valor_descontos += (double) $pagamento['desconto'];
-                ?>
-    				     
-                    				
-    				<tbody>
-							<tr>
-								<td class="ui-state-default text-center"><?php echo $pagamento['tipo']; ?></td>
-								<td class="ui-state-default text-center">R$ <?php echo $pagamento['valor']; ?></td>
-								<td class="ui-state-default text-center"><?php echo $pagamento['quantidade_parcelas']; ?></td>
-								<td class="ui-state-default text-center">R$ <?php echo $pagamento['desconto']; ?></td>
-							</tr>
-						</tbody>
-                    				
+                if ($pagamento['tipo'] != DESCONTO) {
+                    $valor_total_pago += (double)$pagamento['valor'];
+                    $parcelas = $pagamento['quantidade_parcelas'];
+
+                    if($parcelas > 1){
+                        $valor = $pagamento['valor'];
+                        $parcelas = $parcelas . " x R$ " . ($valor/$parcelas);
+                    }else{
+                        $parcelas = '-';
+                    }
+                    ?>
+                    <tbody>
+                    <tr>
+                        <td class="ui-state-default text-center"><?php echo $pagamento['tipo']; ?></td>
+                        <td class="ui-state-default text-center">R$ <?php echo $pagamento['valor']; ?></td>
+                        <td class="ui-state-default text-center"><?php echo $parcelas; ?></td>
+
+                    </tr>
+                    </tbody>
+
                     <?php
+                }else{
+                    $valor_descontos_concedidos = $pagamento['valor'];
+                }
             }
         } else {
             ?>
@@ -204,6 +216,28 @@ if (isset($_GET['id']) && empty($_GET['id']) == false) {
 		</div>
 	</div>
 </div>
+<?php
+if($valor_total_pago > 0){?>
+
+    <div class="row">
+        <div class="form-group col-md-5">
+            <label>VALOR TOTAL PAGO:&nbsp;&nbsp;</label><?php echo "R$ ". $valor_total_pago; ?>
+        </div>
+    </div>
+    <?php
+}
+
+if($valor_descontos_concedidos > 0){
+    ?>
+    <div class="row">
+        <div class="form-group col-md-5">
+            <label>VALOR DO DESCONTO:&nbsp;&nbsp;</label><?php echo "R$ ". $valor_descontos_concedidos; ?>
+        </div>
+    </div>
+<?php
+}
+?>
+
 
 
 <br />
@@ -247,31 +281,39 @@ if (isset($_GET['id']) && empty($_GET['id']) == false) {
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr role="row">
-								<th class="ui-state-default text-center">Tipo</th>
-								<th class="ui-state-default text-center">Valor / Parcela</th>
-								<th class="ui-state-default text-center">Quantidade de parcelas</th>
-								<th class="ui-state-default text-center">Desconto</th>
+                                <th class="ui-state-default text-center">Forma</th>
+                                <th class="ui-state-default text-center">Valor Total</th>
+                                <th class="ui-state-default text-center">Parcelas</th>
 							</tr>
 						</thead>
                     				
     				<?php
         if (count($pagamentos) > 0) {
             foreach ($pagamentos as $pagamento) {
-                $valor_total += (double) $pagamento['valor'];
-                $valor_descontos += (double) $pagamento['desconto'];
-                ?>
-    				     
-                    				
-    				<tbody>
-							<tr>
-								<td class="ui-state-default text-center"><?php echo $pagamento['tipo']; ?></td>
-								<td class="ui-state-default text-center">R$ <?php echo $pagamento['valor']; ?></td>
-								<td class="ui-state-default text-center"><?php echo $pagamento['quantidade_parcelas']; ?></td>
-								<td class="ui-state-default text-center">R$ <?php echo $pagamento['desconto']; ?></td>
-							</tr>
-						</tbody>
-                    				
+                if ($pagamento['tipo'] != DESCONTO) {
+                    $valor_total += (double)$pagamento['valor'];
+                    $parcelas = $pagamento['quantidade_parcelas'];
+
+                    if($parcelas > 1){
+                        $valor = $pagamento['valor'];
+                        $parcelas = $parcelas . " x R$ " . ($valor/$parcelas);
+                    }else{
+                        $parcelas = '-';
+                    }
+                    ?>
+                    <tbody>
+                    <tr>
+                        <td class="ui-state-default text-center"><?php echo $pagamento['tipo']; ?></td>
+                        <td class="ui-state-default text-center">R$ <?php echo $pagamento['valor']; ?></td>
+                        <td class="ui-state-default text-center"><?php echo $parcelas; ?></td>
+
+                    </tr>
+                    </tbody>
+
                     <?php
+                }else{
+                    $valor_descontos = $pagamento['valor'];
+                }
             }
         } else {
             ?>
@@ -290,6 +332,28 @@ if (isset($_GET['id']) && empty($_GET['id']) == false) {
 		</div>
 	</div>
 </div>
+<?php
+if($valor_total > 0){?>
+
+    <div class="row">
+        <div class="form-group col-md-5">
+            <label>VALOR TOTAL PAGO:&nbsp;&nbsp;</label><?php echo "R$ ". $valor_total; ?>
+        </div>
+    </div>
+    <?php
+}
+
+if($valor_descontos > 0){
+    ?>
+    <div class="row">
+        <div class="form-group col-md-5">
+            <label>VALOR DO DESCONTO:&nbsp;&nbsp;</label><?php echo "R$ ". $valor_descontos; ?>
+        </div>
+    </div>
+    <?php
+}
+?>
+
 <div class="row">
 	<div class="form-group col-md-5">
      	<label>REFERENTE &Agrave; INSCRI&Ccedil&Atilde;O DE?:&nbsp;&nbsp;</label><?php echo $dado['nome']; ?>

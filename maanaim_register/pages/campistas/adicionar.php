@@ -19,38 +19,57 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     
     
     unset($inserir['action']);
-    unset($inserir['valor_desconto']);
+
     unset($inserir['quantidade_parcela']);
-    unset($inserir['valor_parcela']);
     unset($inserir['valor']);
     unset($inserir['forma_pagamento']);
+
    
     foreach ($inserir as $key => $value) {
         if($key == 'cpf' || $key == 'cep'){
             $inserir[$key] = str_replace($caracters, "", $value);
-            
         }
-        
         if($key == 'formas_pagamentos'){
             $formas_temp = explode(",", $value);
-            
-            for($i = 0; $i < count($formas_temp); $i = $i + 4){
-                $formas[] = array('tipo' => $formas_temp[$i], 'valor' => str_replace($caracters_valores, "", $formas_temp[$i+1]), 'quantidade_parcelas' => $formas_temp[$i+2], 'desconto' => str_replace($caracters_valores, "",$formas_temp[$i+3]));
+
+            if(!empty ($formas_temp)){
+                for($i = 0; $i < count($formas_temp); $i = $i + 4){
+                    $qtd_parcelas = mb_split('x', $formas_temp[$i+2]);
+                    if(count($qtd_parcelas) > 1){
+                        $qtd_parcelas = $qtd_parcelas[0];
+                    }else{
+                        $qtd_parcelas = 1;
+                    }
+                    $formas[] = array('tipo' => $formas_temp[$i], 'valor' => str_replace($caracters_valores, "", $formas_temp[$i+1]), 'quantidade_parcelas' => $qtd_parcelas, 'desconto' => str_replace($caracters_valores, "",$formas_temp[$i+3]));
+                }
             }
+
         }
-        
-        
     }
+
+    if(isset($_POST['check_tem_desconto'])){
+        $formas[] = array('tipo' => 'Desconto', 'valor' => $inserir['valor_desconto'], 'quantidade_parcelas' => 1, 'desconto' => '');
+    }
+
+
     unset($inserir['formas_pagamentos']);
+    unset($inserir['check_tem_desconto']);
+    unset($inserir['valor_desconto']);
     $inserir['id_responsavel'] = $_SESSION['id'];
     $inserir['situacao'] = INSCRITO;
-    
+
+    $numero_ficha = 0;
+    $numero_ficha = buscarUltimaFichaInscricao();
+    $numero_ficha += 1;
+    $inserir['numero_ficha'] = $numero_ficha;
+
     $id_campista = insert(CAMPISTA, $inserir);
     insertFormasDePagamento($formas, $id_campista);
+
     
     
-    echo "<script>window.open('imprimirinscricao.php?id=".$id_campista."')</script>";
-    echo('<meta http-equiv="refresh" content="0;URL=lista.php">');
+   echo "<script>window.open('imprimirinscricao.php?id=".$id_campista."')</script>";
+   echo('<meta http-equiv="refresh" content="0;URL=lista.php">');
 }
 
 
@@ -80,37 +99,39 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                         $('#telefone_responsavel').mask("(99) 99999-9999");
                         $('#valor').maskMoney({prefix:'R$ ', allowNegative: false, thousands:'.', decimal:'.', affixesStay: false}); 
 						$('#valor_desconto').maskMoney({prefix:'R$ ', allowNegative: false, thousands:'.', decimal:'.', affixesStay: false});
-						$('#valor_parcela').maskMoney({prefix:'R$ ', allowNegative: false, thousands:'.', decimal:'.', affixesStay: false});
 
 						$('#div_valor').hide();
 						$('#div_desconto').hide();
-						$('#div_valor_parcela').hide();
 						$('#div_botao_add_pagamento').hide();
 						$('#div_quantidade_parcela').hide();
+
+                        $('#div_tem_desconto').on('change', function() {
+                            if($('#check_tem_desconto').is(':checked')) {
+                                $('#div_desconto').fadeIn('slow');
+                            }else{
+                                $('#div_desconto').hide();
+                            }
+                        });
 
 						$('#forma_pagamento').on('change', function(){
 							var forma = $('#forma_pagamento').val();
 							if(forma == 'cartao_credito_parcelado'){
-								$('#div_valor').hide();
-								$('#div_desconto').fadeIn('slow');
-								$('#div_valor_parcela').fadeIn('slow');
+								$('#div_valor').fadeIn('slow');
 								$('#div_quantidade_parcela').fadeIn('slow');
 								$('#div_botao_add_pagamento').fadeIn('slow');
-								
+
 								
 							} else if(forma == "bolsa"){
 								$('#div_valor').hide();
-								$('#div_desconto').hide();
 								$('#div_valor_parcela').hide();
 								$('#div_quantidade_parcela').hide();
-								$('#div_botao_add_pagamento').fadeIn('slow');
 
 							} else {
 								$('#div_valor').fadeIn('slow');
-								$('#div_desconto').fadeIn('slow');
 								$('#div_valor_parcela').hide();
 								$('#div_botao_add_pagamento').fadeIn('slow');
 								$('#div_quantidade_parcela').hide();
+
 							}
 						});
                    	 });
@@ -265,6 +286,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
         					<input type="hidden" id="data_nascimento" name="data_nascimento" />
         					<input type="hidden" id="formas_pagamentos" name="formas_pagamentos"/>
         					<input type="hidden" id="idade" name="idade"/>
+
          					<div class="row">
          					
          						<div class="form-group col-md-4">
@@ -536,6 +558,16 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                                 	<div class="panel panel-success">
                                 		<div class="panel-heading">Pagamento</div>
                             			<div class="panel-body">
+                                            <div class="row">
+                                                <div id="div_tem_desconto" class="form-group col-md-2">
+                                                    <input type="checkbox" id="check_tem_desconto" name="check_tem_desconto" style="margin-top: 27px">
+                                                    <label id="label_tem_desconto">Possui desconto?</label>
+                                                </div>
+                                                <div id="div_desconto" class="form-group col-md-2">
+                                                    <label id="label_valor_desconto" for="valor_desconto">Valor desconto</label>
+                                                    <input id="valor_desconto" name="valor_desconto" type="text" class="form-control" value="" placeholder="Possui desconto?"/>
+                                                </div>
+                                            </div>
                                           	<div class="row">
                                               	<div class="form-group col-md-3">
                                                   	<label for="forma_pagamento">Forma de pagamento</label>
@@ -551,30 +583,25 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                                               	</div>
                                           	</div>
                                           	<div class="row">
-                                              	<div id="div_valor" class="form-group col-md-2">
+                                                <div id="div_valor" class="form-group col-md-2">
                                                   	<label id="label_valor" for="valor">Valor</label>
                                 					<input id="valor" name="valor" type="text" class="form-control" value=""/>
                                               	</div>
-                                              	<div id="div_valor_parcela" class="form-group col-md-2">
-                                                  	<label id="label_valor_parcela" for="valor_parcela">Valor da parcela</label>
-                                					<input id="valor_parcela" name="valor_parcela" type="text" class="form-control" value=""/>
-                                              	</div>
-                                              	
-                                              	<div id="div_quantidade_parcela" class="form-group col-md-2">
+
+                                                <div id="div_quantidade_parcela" class="form-group col-md-2">
                                                   	<label id="label_quantidade_parcela" for="quantidade_parcela">Quantidade de parcelas</label>
                                 					<input id="quantidade_parcela" name="quantidade_parcela" type="text" class="form-control" value=""/>
                                               	</div>
                                               	
                                            	</div>
                                            	<div class="row">
-                                              	<div id="div_desconto" class="form-group col-md-2">
-                                                  	<label id="label_valor_desconto" for="valor_desconto">Valor desconto</label>
-                                					<input id="valor_desconto" name="valor_desconto" type="text" class="form-control" value="" placeholder="Possui desconto?"/>
-                                              	</div>
+
+
                                               	<div id="div_botao_add_pagamento" class="form-group col-md-1">
                                 					<a onclick="javascript:addTableRow()" class="btn btn-sm btn-primary" id="btn_add_pagamento" style="margin-top: 27px">&#10003 Adicionar</a> 
                                                	</div>
                                            	</div>
+
                                            	<div class="row">
                                                	<div class="col-md-7">
                                                		<div class="form-group">
@@ -585,16 +612,13 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                 													<thead>
                 														<tr role="row">
                 															<th class="ui-state-default text-center" >
-																				Tipo
+																				Forma
                 															</th>
                 															<th class="ui-state-default text-center" >
-																				Valor / Parcela
+																				Valor Total
                 															</th>
                 															<th class="ui-state-default text-center" >
-																				Quantidade de parcelas
-                															</th>
-                															<th class="ui-state-default text-center" >
-																				Desconto
+																				Parcelas
                 															</th>
                 															<th class="ui-state-default text-center" >
 																				A&ccedil;&otilde;es	

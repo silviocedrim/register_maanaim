@@ -43,7 +43,7 @@ function buscarTodosOsCampistas($table = null)
     try {
         $database = open_database();
         
-        $sql = "SELECT * FROM " . $table . " WHERE situacao = '" . INSCRITO . "'";
+        $sql = "SELECT * FROM " . $table . " WHERE situacao = '" . INSCRITO . "'" . "ORDER BY " . NUMERO_FICHA . " ASC ";
         $result = $database->query($sql);
         if ($result->num_rows > 0) {
             $found = $result->fetch_all(MYSQLI_ASSOC);
@@ -175,6 +175,7 @@ function insert($table = null, $data = null)
     return $insert_id;
 }
 
+
 function insertFormasDePagamento($input_data, $codCampista)
 {
     $columns = null;
@@ -205,6 +206,21 @@ function insertFormasDePagamento($input_data, $codCampista)
     
     close_database($database);
 }
+
+function buscarUltimaFichaInscricao(){
+    $numero_ficha = null;
+    $sql = "SELECT MAX(numero_ficha) as NUMERO_FICHA FROM " . CAMPISTA;
+    $database = open_database();
+
+    $result = $database->query($sql);
+
+    if ($result->num_rows > 0) {
+        $numero_ficha = $result->fetch_assoc()['NUMERO_FICHA'];
+    }
+
+    return $numero_ficha;
+}
+
 
 function consultaIdUltimoCampista()
 {
