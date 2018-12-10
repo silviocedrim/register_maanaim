@@ -1,6 +1,7 @@
 <?php
 require_once ('../include/header.php');
 require_once ('../menu/menu.php');
+include('../include/modalRemover.php');
 
 $dados = buscarTodosOsRegistros(MEMBRO);
 $mensagens = new Mensagens();
@@ -11,6 +12,27 @@ $mensagens = new Mensagens();
     <body>
     	<div class="col-md-12">
        		<header>
+                <script type="text/javascript">
+
+
+                    $('#modalRemover').on('show.bs.modal', function (e) {
+
+                        var button = $(e.relatedTarget);
+                        var modal = $(this);
+                        var id_membro = button.data('membro');
+                        modal.find('.modal-footer #confirm').on('click', function(){
+                            $.ajax({
+                                type:"POST",
+                                url:"removerMembro.php",
+                                data: "id="+id_membro,
+                                success: function(message){
+                                    modal.modal('toggle');
+                                    location.reload(true);
+                                }
+                            });
+                        });
+                    });
+                </script>
         		<div class="row">
             		<div class="col-sm-6">
             			<h2>Membros</h2>
@@ -52,7 +74,7 @@ $mensagens = new Mensagens();
                 						<td><?php echo $membro['login']; ?></td>
                 						<td align="center">
                 							<a title="Alterar" class="btn-sm btn-warning" href="editar.php?id=<?php echo $membro['id']?>"><i class="fa fa-pencil-square-o"></i></a>
-<!--                   							<a title="Excluir" id="btn-excluir" href="excluir.php?id=--><?php //echo $membro['id']?><!--" class="btn-sm btn-danger tooltipBtn"><i class="fa fa-trash-o"></i></a>-->
+                                            <a title="Remover" class="btn-sm btn-danger tooltipBtn" href="#" data-toggle="modal" data-target="#modalRemover" data-membro="<?php echo $membro['id']; ?>"><i class="fa fa-trash"></i></a>
                    						</td>
                 					</tr>
                 				</tbody>
