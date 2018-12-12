@@ -249,8 +249,9 @@ function delete($table = null, $id = null)
             
             $sql = "DELETE FROM " . $table . " WHERE id = " . $id;
             $result = $database->query($sql);
-            
-            if ($result = $database->query($sql)) {
+
+            if ($result) {
+
                 $_SESSION['message'] = "Registro Removido com Sucesso.";
                 $_SESSION['type'] = 'success';
             }

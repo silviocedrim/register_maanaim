@@ -17,8 +17,9 @@ require_once ('../../resources/functions/Functions.php');?>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<?php if(isAdministrador()){?>
-						<li><a href="../membros/lista.php">Membros</a></li>
-					<?php }?>
+                        <li><a href="../membros/lista.php">Membros</a></li>
+                        <li><a href="../eventos/lista.php">Eventos</a></li>
+                    <?php }?>
 					<li><a href="../campistas/lista.php">Campistas</a></li>
 					<li><a href="../login/login.php">Sair</a></li>
 				</ul>
