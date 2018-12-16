@@ -1,6 +1,6 @@
 <?php
-require_once ('../include/header.php');
-require_once ('../menu/menu.php');
+require_once('../include/header.php');
+require_once('../menu/menu.php');
 include('../include/modal.php');
 include('../include/modalRemover.php');
 
@@ -62,7 +62,14 @@ $mensagens = new Mensagens();
        				function imprimir(id){
        					window.open("imprimirinscricao.php?id="+ id + "");
        				}
-       				
+                    $(document).ready(function(){
+                        $("#filtro").on("keyup", function() {
+                            var value = $(this).val().toLowerCase();
+                            $("#listaCampistas tr").filter(function() {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                            });
+                        });
+                    });
            				
 
        			</script>
@@ -85,6 +92,12 @@ $mensagens = new Mensagens();
         		<div class="panel panel-default">
             		<div class="panel-heading">Lista de Campistas</div>
             			<div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="filtro" type="text" placeholder="Pesquisar...">
+                                </div>
+                            </div>
+                            <br>
                         <!-- TABLE -->
                 			<table class="table table-bordered table-striped">
                 				<thead  class="blue-grey lighten-4">
@@ -109,7 +122,7 @@ $mensagens = new Mensagens();
                 				
                 				?>
                 				
-                				<tbody>
+                				<tbody id="listaCampistas">
                 					<tr>
                 						<td><?php echo $campista['numero_ficha']; ?>
                 						<td><?php echo $campista['nome']; ?></td>

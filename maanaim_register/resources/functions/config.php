@@ -16,6 +16,8 @@ define("DB_DATABASE", "comumana_register_dev");
 define("USUARIO", "usuario");
 define("MEMBRO", "membro");
 define("EVENTO", "evento");
+define("EVENTO_CAMPISTA", "evento_campista");
+define("TIPO_PAGAMENTO", "tipo_pagamento");
 
 define("CAMPISTA", "campista");
 define("PAGAMENTOS", "pagamento_inscricao");

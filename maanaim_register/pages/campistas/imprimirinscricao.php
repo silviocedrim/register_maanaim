@@ -1,6 +1,6 @@
 <?php
-require_once ('../include/header.php');
-require_once ('../../resources/functions/Functions.php');
+require_once('../include/header.php');
+require_once('../../resources/functions/Functions.php');
 
 $id = 0;
 $valor_total = null;
@@ -174,7 +174,9 @@ if (isset($_GET['id']) && empty($_GET['id']) == false) {
         if (count($pagamentos) > 0) {
 
             foreach ($pagamentos as $pagamento) {
-                if ($pagamento['tipo'] != DESCONTO) {
+                if ($pagamento['tipo'] != EnumTipoPagamento::DESCONTO()->getKey()) {
+
+                    $tipo = $pagamento['tipo'];
                     $valor_total_pago += (double)$pagamento['valor'];
                     $parcelas = $pagamento['quantidade_parcelas'];
 
@@ -187,7 +189,7 @@ if (isset($_GET['id']) && empty($_GET['id']) == false) {
                     ?>
                     <tbody>
                     <tr>
-                        <td class="ui-state-default text-center"><?php echo $pagamento['tipo']; ?></td>
+                        <td class="ui-state-default text-center"><?php echo EnumTipoPagamento::$tipo()->getValue(); ?></td>
                         <td class="ui-state-default text-center">R$ <?php echo $pagamento['valor']; ?></td>
                         <td class="ui-state-default text-center"><?php echo $parcelas; ?></td>
 
@@ -290,10 +292,10 @@ if($valor_descontos_concedidos > 0){
     				<?php
         if (count($pagamentos) > 0) {
             foreach ($pagamentos as $pagamento) {
-                if ($pagamento['tipo'] != DESCONTO) {
+                if ($pagamento['tipo'] != EnumTipoPagamento::DESCONTO()->getKey()) {
                     $valor_total += (double)$pagamento['valor'];
                     $parcelas = $pagamento['quantidade_parcelas'];
-
+                    $tipo = $pagamento['tipo'];
                     if($parcelas > 1){
                         $valor = $pagamento['valor'];
                         $parcelas = $parcelas . " x R$ " . ($valor/$parcelas);
@@ -303,7 +305,7 @@ if($valor_descontos_concedidos > 0){
                     ?>
                     <tbody>
                     <tr>
-                        <td class="ui-state-default text-center"><?php echo $pagamento['tipo']; ?></td>
+                        <td class="ui-state-default text-center"><?php echo EnumTipoPagamento::$tipo()->getValue(); ?></td>
                         <td class="ui-state-default text-center">R$ <?php echo $pagamento['valor']; ?></td>
                         <td class="ui-state-default text-center"><?php echo $parcelas; ?></td>
 

@@ -1,7 +1,8 @@
 <?php
-require_once ('../include/header.php');
-require_once ('../menu/menu.php');
-include('../include/modalRemover.php');
+require_once('../../include/header.php');
+require_once('../../menu/menu.php');
+include('../../include/modalRemover.php');
+require_once('../../../resources/util/select_functions.php');
 
 $dados = buscarTodosOsRegistros(MEMBRO);
 $mensagens = new Mensagens();
@@ -13,6 +14,15 @@ $mensagens = new Mensagens();
     	<div class="col-md-12">
        		<header>
                 <script type="text/javascript">
+
+                    $(document).ready(function(){
+                        $("#filtroNome").on("keyup", function() {
+                            var value = $(this).val().toLowerCase();
+                            $("#listaMembros tr").filter(function() {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                            });
+                        });
+                    });
 
 
                     $('#modalRemover').on('show.bs.modal', function (e) {
@@ -50,7 +60,12 @@ $mensagens = new Mensagens();
         		<div class="panel panel-default">
             		<div class="panel-heading">Lista de Membros</div>
             			<div class="panel-body">
-
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <input class="form-control" id="filtroNome" type="text" placeholder="Pesquisar...">
+                                </div>
+                            </div>
+                            <br/>
                 			<!-- TABLE -->
                 			<table class="table table-bordered table-striped">
                 				<thead  class="blue-grey lighten-4">
@@ -66,7 +81,7 @@ $mensagens = new Mensagens();
                 				<?php foreach ($dados as $membro){ 
                 				?>
                 				
-                				<tbody>
+                				<tbody id="listaMembros">
                 					<tr>
                 						<td><?php echo $membro['nome']; ?></td>
                 						<td><?php echo $membro['email']; ?></td>
