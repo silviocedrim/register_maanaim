@@ -1,3 +1,5 @@
+var formas_pagamento = [];
+
 function calcularIdade(dia_aniversario, mes_aniversario, ano_aniversario)
 {
 	var d = new Date,
@@ -23,23 +25,23 @@ function calcularIdade(dia_aniversario, mes_aniversario, ano_aniversario)
 function addTableRow()
 {
 
-	var valor;
+	var valor =  $('#valor').val();
 	var forma = $('#forma_pagamento').find(":selected").val();
 	var texto_forma = $('#forma_pagamento').find(":selected").text();
-	var parcelas;
+	var parcelas = $('#quantidade_parcela').val();
+	var pagamento = [];
 
 	var newRow = $("<tr>");
 	var cols = "";
-	
-	if(forma == 'cartao_credito_parcelado'){
-		parcelas = $('#quantidade_parcela').val();
-		valor = $('#valor').val();
+	pagamento.push(forma);
+	pagamento.push(valor);
+	pagamento.push(parcelas);
+    formas_pagamento.push(pagamento);
+
+   if(forma == 'CARTAO_CREDITO_PARCELADO'){
 		parcelas = parcelas + " x R$ " + (valor/parcelas);
-	}else if(forma == 'bolsa'){
-	
-	}
-	else{
-		valor = 'R$ ' + $('#valor').val();
+	}else{
+		valor = 'R$ ' + valor;
 	}
 	
 	if(!valor){
@@ -66,6 +68,7 @@ function addTableRow()
 	$('#quantidade_parcela').val('');
 	$('#valor_parcela').val('');
 	$('#forma_pagamento').val('selecione');
+
 
 	return false;
 }

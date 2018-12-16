@@ -1,6 +1,6 @@
 <?php
-require_once ('../include/header.php');
-require_once ('../menu/menu.php');
+require_once('../include/header.php');
+require_once('../menu/menu.php');
 
 if (isset($_POST['nome']) && empty($_POST['nome']) == false) {
     insert(EVENTO, $_POST);

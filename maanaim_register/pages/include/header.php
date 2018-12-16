@@ -1,10 +1,12 @@
-<?php 
+<?php
+
 
 require_once ('../../resources/functions/DB_Functions.php');
 require_once ('../../resources/functions/Functions.php');
 require_once ('../../resources/util/mensagens.php');
 require_once ('../../resources/util/select_functions.php');
 require_once ('../../resources/functions/buscar_cep.php');
+require_once ('../tipoPagamento/EnumTipoPagamento.php');
 
 
 

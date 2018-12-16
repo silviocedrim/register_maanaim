@@ -119,7 +119,12 @@ function update($table = null, $id = 0, $data = null)
     $database = open_database();
     
     foreach ($data as $key => $value) {
-        $items .= trim($key, "'") . "='$value',";
+        if(is_numeric($value)){
+            $items .= trim($key, "'") . "= $value ,";
+        }else{
+            $items .= trim($key, "'") . "='$value',";
+        }
+
     }
     
     // remove a ultima virgula
@@ -127,6 +132,7 @@ function update($table = null, $id = 0, $data = null)
     $sql = "UPDATE " . $table;
     $sql .= " SET $items";
     $sql .= " WHERE id = " . $id . ";";
+    print_r($sql);
     try {
         
         $database->query($sql);
@@ -263,6 +269,26 @@ function delete($table = null, $id = null)
     }
     
     close_database($database);
+}
+
+function buscarEventosVigentes(){
+    $found = null;
+    $sql = null;
+    try {
+        $database = open_database();
+        $data_atual = date("YYYY-mm-dd");
+        $sql = "select * from " . EVENTO . " WHERE data_inicio > NOW()";
+
+        $result = $database->query($sql);
+        if ($result->num_rows > 0) {
+            $found = $result->fetch_all(MYSQLI_ASSOC);
+        }
+    } catch (Exception $e) {
+        $_SESSION['message'] = $e->GetMessage();
+        $_SESSION['type'] = 'danger';
+    }
+    close_database($database);
+    return $found;
 }
 
 function buscarMembros($id = null)

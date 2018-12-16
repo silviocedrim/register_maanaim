@@ -1,28 +1,45 @@
 <?php
-require_once ('../include/header.php');
-require_once ('../menu/menu.php');
+require_once('../include/header.php');
+require_once('../menu/menu.php');
+
 
 $nome_responsavel = $_SESSION['nome'];
 $id_responsavel = $_SESSION['id'];
+$eventos = buscarEventosVigentes();
+$tipo_pagamento = null;
+
+$keysPagamentos = EnumTipoPagamento::keys();
+
+foreach($keysPagamentos as $key){
+    
+    if($key != EnumTipoPagamento::DESCONTO()->getKey()){
+        $valor = EnumTipoPagamento::$key()->getValue();
+        $tipo_pagamento[$key] = $valor;
+    }
+
+}
+
+
 
 
 
 if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
-    
+
     $caracters = array("/", "-", ".", "(", ")");
     $caracters_valores = array("R", "$", " ");
-    
-    
+
     $inserir = $_POST;
     $formas_pagamento;
+    $inserir_evento;
     $formas = array();
-    
-    
-    unset($inserir['action']);
 
+    unset($inserir['action']);
     unset($inserir['quantidade_parcela']);
     unset($inserir['valor']);
     unset($inserir['forma_pagamento']);
+
+
+
 
    
     foreach ($inserir as $key => $value) {
@@ -33,14 +50,12 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
             $formas_temp = explode(",", $value);
 
             if(!empty ($formas_temp)){
-                for($i = 0; $i < count($formas_temp); $i = $i + 4){
-                    $qtd_parcelas = mb_split('x', $formas_temp[$i+2]);
-                    if(count($qtd_parcelas) > 1){
-                        $qtd_parcelas = $qtd_parcelas[0];
-                    }else{
+                for($i = 0; $i < count($formas_temp); $i = $i + 3){
+                    $qtd_parcelas = $formas_temp[$i+2];
+                    if($qtd_parcelas == ''){
                         $qtd_parcelas = 1;
                     }
-                    $formas[] = array('tipo' => $formas_temp[$i], 'valor' => str_replace($caracters_valores, "", $formas_temp[$i+1]), 'quantidade_parcelas' => $qtd_parcelas, 'desconto' => str_replace($caracters_valores, "",$formas_temp[$i+3]));
+                    $formas[] = array('tipo' => $formas_temp[$i], 'valor' => $formas_temp[$i+1], 'quantidade_parcelas' => $qtd_parcelas);
                 }
             }
 
@@ -48,13 +63,15 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     }
 
     if(isset($_POST['check_tem_desconto'])){
-        $formas[] = array('tipo' => 'Desconto', 'valor' => $inserir['valor_desconto'], 'quantidade_parcelas' => 1, 'desconto' => '');
+        $formas[] = array('tipo' => EnumTipoPagamento::DESCONTO()->getKey(), 'valor' => $inserir['valor_desconto'], 'quantidade_parcelas' => 1);
     }
 
 
     unset($inserir['formas_pagamentos']);
     unset($inserir['check_tem_desconto']);
     unset($inserir['valor_desconto']);
+    unset($inserir['evento']);
+
     $inserir['id_responsavel'] = $_SESSION['id'];
     $inserir['situacao'] = INSCRITO;
 
@@ -64,12 +81,15 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     $inserir['numero_ficha'] = $numero_ficha;
 
     $id_campista = insert(CAMPISTA, $inserir);
+
+    $inserir_evento['id_campista'] = $id_campista;
+
+    insert(EVENTO_CAMPISTA, $inserir_evento);
+
     insertFormasDePagamento($formas, $id_campista);
 
-    
-    
    echo "<script>window.open('imprimirinscricao.php?id=".$id_campista."')</script>";
-   echo('<meta http-equiv="refresh" content="0;URL=lista.php">');
+//   echo('<meta http-equiv="refresh" content="0;URL=lista.php">');
 }
 
 
@@ -115,17 +135,12 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
 
 						$('#forma_pagamento').on('change', function(){
 							var forma = $('#forma_pagamento').val();
-							if(forma == 'cartao_credito_parcelado'){
+							if(forma == 'CARTAO_CREDITO_PARCELADO'){
 								$('#div_valor').fadeIn('slow');
 								$('#div_quantidade_parcela').fadeIn('slow');
 								$('#div_botao_add_pagamento').fadeIn('slow');
 
 								
-							} else if(forma == "bolsa"){
-								$('#div_valor').hide();
-								$('#div_valor_parcela').hide();
-								$('#div_quantidade_parcela').hide();
-
 							} else {
 								$('#div_valor').fadeIn('slow');
 								$('#div_valor_parcela').hide();
@@ -222,25 +237,24 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                     	});
                     }
 
-                    var pagamentos = new Array();
-                    
                     function beforeSave()
                     {
-                    	var table = $('#table_forma_pagamento tbody');
-                    	
-                    	table.find('tr').each(function() {
-                    	  $.each($(this).find('td'), function(index,item){
-                    		  if(index != 4){
-                    			  pagamentos.push($(item).text());
-                    		  }
-                    		  
-                    	  });
-                    	});
+                    	// var table = $('#table_forma_pagamento tbody');
+                        //
+                    	// table.find('tr').each(function() {
+                    	//   $.each($(this).find('td'), function(index,item){
+                    	// 	  if(index != 4){
+                    	// 		  pagamentos.push($(item).text());
+                    	// 	  }
+                    	//
+                    	//   });
+                    	// });
                     	
                     	var hidden = document.getElementById('formas_pagamentos');
-                     	var form = document.getElementById('formInscricao');
+                       var form = document.getElementById('formInscricao');
                      	var nomeNaoPreenchido = ($('#nome').val() == '');
                      	var cpfNaoPreenchido = ($('#cpf').val() == '');
+                     	var eventoNaoPreenchido = ($('#evento').val() == '');
                      	
                      	if(cpfNaoPreenchido){
                      		$('#cpf').css({"border-color" : "#F00", "padding": "2px"});
@@ -252,15 +266,19 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                          	$('#nome').focus();
                          	
                      	}
+
+                     	if(eventoNaoPreenchido){
+                            $('#evento').css({"border-color" : "#F00", "padding": "2px"});
+                            $('#evento').focus();
+                        }
                      	
                      	
                      	if(nomeNaoPreenchido || cpfNaoPreenchido){
                      		$('#mensagem_obrigatorio').show();
                      		return;
                      	}
-                     	
-                     	hidden.value = pagamentos;
-                     	form.submit();
+                     	hidden.value = formas_pagamento;
+                        form.submit();
                     }
 
             	</script>
@@ -285,7 +303,7 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
         					<input type="hidden" id="action" name="action" />
         					<input type="hidden" id="data_nascimento" name="data_nascimento" />
         					<input type="hidden" id="formas_pagamentos" name="formas_pagamentos"/>
-        					<input type="hidden" id="idade" name="idade"/>
+                            <input type="hidden" id="idade" name="idade"/>
 
          					<div class="row">
          					
@@ -294,6 +312,17 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                                   <input type="text" class="form-control" id="nome_responsavel" name="nome_responsavel" disabled value="<?php echo $nome_responsavel;?>">
                             	</div>
                         	</div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="sexo">Evento</label>
+                                    <?php foreach ($eventos as $evento){?>
+                                    <select class="form-control selectpicker" name="evento" id="evento">
+                                        <option value="">--SELECIONE--</option>
+                                        <option value="<?php echo $evento['id'];?>"><?php echo $evento['nome'];?></option>
+                                    </select>
+                                    <?php }?>
+                                </div>
+                            </div>
                         	
                         	<div class="row">
                         	
@@ -571,15 +600,12 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
                                           	<div class="row">
                                               	<div class="form-group col-md-3">
                                                   	<label for="forma_pagamento">Forma de pagamento</label>
-                                                  	<select class="form-control selectpicker" name="forma_pagamento" id="forma_pagamento">
-                                                		<option value="selecione">--SELECIONE--</option>
-                                                    	<option value="dinheiro">Dinheiro</option>
-                                                    	<option value="cheque">Cheque</option>
-                                                    	<option value="cartao_debito">Cart&atilde;o d&eacute;bito</option>
-                                                    	<option value="cartao_credito">Cart&atilde;o cr&eacute;dito</option>
-                                                    	<option value="cartao_credito_parcelado">Cart&atilde;o cr&eacute;dito parcelado</option>
-                                                    	<option value="bolsa">Bolsa</option>
-                                                    </select>
+                                                        <select class="form-control selectpicker" name="forma_pagamento" id="forma_pagamento">
+                                                            <option value="">--SELECIONE--</option>
+                                                  	<?php foreach ($tipo_pagamento as $key => $value){?>
+                                                            <option value="<?php echo $key;?>"><?php echo $value;?></option>
+                                                    <?php }?>
+                                                        </select>
                                               	</div>
                                           	</div>
                                           	<div class="row">
@@ -671,4 +697,4 @@ if (isset($_POST['cpf']) && empty($_POST['cpf']) == false) {
     
 </html>
        
-      
+
